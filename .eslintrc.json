@@ -49,5 +49,21 @@
         "endOfLine": "auto"
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "tsconfigRootDir": "__dirname",
+        "project": ["./tsconfig.json", "./tsconfig.node.json"]
+      },
+      "alias": {
+        "map": [["~", "@"]],
+        "extensions": [".js", "jsx", ".ts", ".d.ts", ".tsx"]
+      }
+    }
   }
 }
