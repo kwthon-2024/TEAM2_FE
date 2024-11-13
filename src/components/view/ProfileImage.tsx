@@ -11,7 +11,7 @@ const sizeMap = {
 } as const
 
 type ProfileImageProps = {
-  iconType: IconType
+  iconType: IconType | null
   size: keyof typeof sizeMap
 }
 
@@ -24,6 +24,7 @@ const iconMap: Record<IconType, ElementType> = {
 }
 
 export const ProfileImage = ({ iconType, size }: ProfileImageProps) => {
+  if (!iconType || !iconMap[iconType]) return null
   const IconComponent = iconMap[iconType]
 
   return (

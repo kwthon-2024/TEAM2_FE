@@ -1,5 +1,7 @@
 export * from './BottomNav'
 export * from './Button'
+export * from './header/MainHeader'
+export * from './header/SubHeader'
 export * from './icons/ActiveIcons'
 export * from './icons/NavIcons'
 export * from './icons/NonActiveIcons'
