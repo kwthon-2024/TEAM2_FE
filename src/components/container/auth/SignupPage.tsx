@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 
 import { SignupOneStep, SignupThirdStep, SignupTwoStep } from '@/components/domain'
+import { useSignupForm } from '@/hooks'
 import { useCurrentStep, useStepsActions } from '@/stores'
 
 const signupMap = {
@@ -11,7 +12,7 @@ const signupMap = {
 } as const
 
 export const SignupPage = () => {
-  const formMethod = useForm()
+  const formMethod = useSignupForm()
   const currentStep = useCurrentStep()
   const { setCurrentStep, setTotalStep } = useStepsActions()
 
