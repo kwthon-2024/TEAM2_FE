@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, InputGroup, LabelWithStep, SubHeaderWithIcon } from '@/components/view'
-import { useValidateNickname } from '@/queries/auth/useAuthService'
+import { useValidateNickname } from '@/queries'
 import { useStepsActions, useTotalStep } from '@/stores'
 import type { StepProps } from '@/types'
 

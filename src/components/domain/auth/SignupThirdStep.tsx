@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -19,11 +20,13 @@ type AgreementStatusType = {
 const agreementTexts = {
   personalConsent: '(필수) 개인정보 이용 약관 동의',
   serviceConsent: '(필수) 서비스 이용 약관 동의',
-}
+} as const
 
 export const SignupThirdStep = ({ label }: StepProps) => {
   const navigate = useNavigate()
   const totalStep = useTotalStep()
+
+  const { reset } = useFormContext()
   const { goPreviousStep } = useStepsActions()
 
   const [agreementStatus, setAgreementStatus] = useState<AgreementStatusType>({
@@ -49,7 +52,7 @@ export const SignupThirdStep = ({ label }: StepProps) => {
 
   const handleClickCloseButton = () => {
     navigate('/login')
-    // 폼 초기화
+    reset()
   }
 
   return (
