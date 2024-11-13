@@ -55,6 +55,8 @@ export const SignupOneStep = ({ label }: StepProps) => {
 
   useEffect(() => {
     setIsIdValidated(false)
+    setValidationSuccessMessage(null)
+    setValidationErrorMessage(null)
   }, [watchUserIdField])
 
   return (

@@ -55,6 +55,8 @@ export const SignupTwoStep = ({ label }: StepProps) => {
 
   useEffect(() => {
     setIsNicknameValidated(false)
+    setValidationSuccessMessage(null)
+    setValidationErrorMessage(null)
   }, [watchNicknameField])
 
   return (
