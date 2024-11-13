@@ -1,18 +1,18 @@
 import type { ElementType } from 'react'
 
-import type { IconType, SizeType } from '@/types'
+import type { IconType } from '@/types'
 
 import { AirforceIcon, ArmyIcon, EtcIcon, MarineIcon, NavyIcon } from './icons/ProfileIcons'
 
-type ProfileImageProps = {
-  iconType: IconType
-  size: SizeType
-}
-
-const sizeMap: Record<SizeType, string> = {
+const sizeMap = {
   lg: '64',
   md: '48',
   sm: '40',
+} as const
+
+type ProfileImageProps = {
+  iconType: IconType
+  size: keyof typeof sizeMap
 }
 
 const iconMap: Record<IconType, ElementType> = {

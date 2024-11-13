@@ -1,18 +1,5 @@
 import type { PropsWithChildren } from 'react'
 
-import type { SizeType } from '@/types'
-
-type ButtonType = 'submit' | 'reset' | 'button' | undefined
-
-type ButtonProps = {
-  size: SizeType
-  type?: ButtonType
-  disabled?: boolean
-  secondary?: boolean
-  classname?: string
-  onClick?: VoidFunction
-}
-
 const sizeMap = {
   lg: {
     padding: 'px-5 py-4',
@@ -27,6 +14,17 @@ const sizeMap = {
     font: 'p-xsmall font-bold',
   },
 } as const
+
+type ButtonType = 'submit' | 'reset' | 'button' | undefined
+
+type ButtonProps = {
+  size: keyof typeof sizeMap
+  type?: ButtonType
+  disabled?: boolean
+  secondary?: boolean
+  classname?: string
+  onClick?: VoidFunction
+}
 
 export const Button = ({
   size,
