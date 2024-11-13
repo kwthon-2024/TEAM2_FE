@@ -1,25 +1,51 @@
+import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, InputGroup, LabelWithStep, SubHeaderWithIcon } from '@/components/view'
+import { useValidateNickname } from '@/queries/auth/useAuthService'
 import { useStepsActions, useTotalStep } from '@/stores'
 import type { StepProps } from '@/types'
 
 export const SignupTwoStep = ({ label }: StepProps) => {
   const navigate = useNavigate()
-  const { trigger } = useFormContext()
-
   const totalStep = useTotalStep()
+
+  const [validationSuccessMessage, setValidationSuccessMessage] = useState<string | null>(null)
+  const [validationErrorMessage, setValidationErrorMessage] = useState<string | null>(null)
+
+  const { mutate: validateNicknameMutation } = useValidateNickname()
+  const { getValues, trigger, reset } = useFormContext()
   const { goNextStep, goPreviousStep } = useStepsActions()
 
   const handleClickCloseButton = () => {
     navigate('/login')
-    // 폼 초기화
+    reset()
   }
 
   const handleClickNextButton = async () => {
     const isValid = await trigger(['nickname', 'dischargeYear', 'militaryChaplain'])
     if (isValid) goNextStep()
+  }
+
+  const handleClickValidateNickname = async () => {
+    const isValid = await trigger(['nickname'])
+    if (isValid) {
+      const nickname = getValues('nickname')
+      validateNicknameMutation(
+        { body: { nickname: nickname } },
+        {
+          onSuccess: (res) => {
+            setValidationSuccessMessage(res.data)
+            setValidationErrorMessage(null)
+          },
+          onError: (error) => {
+            setValidationSuccessMessage(null)
+            setValidationErrorMessage(error.message)
+          },
+        },
+      )
+    }
   }
 
   return (
@@ -36,10 +62,16 @@ export const SignupTwoStep = ({ label }: StepProps) => {
 
       <div className="flex-column scroll mx-4 mb-2 mt-[65px] grow gap-7">
         <InputGroup>
-          <InputGroup.Label section="nickname">닉네임</InputGroup.Label>
+          <InputGroup.Label
+            section="nickname"
+            customSuccessMessage={validationSuccessMessage}
+            customErrorMessage={validationErrorMessage}
+          >
+            닉네임
+          </InputGroup.Label>
           <div className="flex gap-4">
             <InputGroup.Input section="nickname" placeholder="최소 2글자, 최대 8글자" />
-            <Button size="md" onClick={() => {}}>
+            <Button size="md" onClick={handleClickValidateNickname}>
               중복 확인
             </Button>
           </div>

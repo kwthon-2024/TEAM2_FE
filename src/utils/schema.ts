@@ -30,3 +30,7 @@ export const signupSchema = z
     path: ['confirm'],
     message: '비밀번호가 일치하지 않습니다.',
   })
+  .refine((data) => data.militaryChaplain !== undefined, {
+    path: ['militaryChaplain'],
+    message: '군종을 선택해주세요.',
+  })
