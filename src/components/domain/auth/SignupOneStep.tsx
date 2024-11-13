@@ -1,25 +1,50 @@
+import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, InputGroup, LabelWithStep, SubHeaderWithIcon } from '@/components/view'
+import { useValidateId } from '@/queries/auth/useAuthService'
 import { useStepsActions, useTotalStep } from '@/stores'
 import type { StepProps } from '@/types'
 
 export const SignupOneStep = ({ label }: StepProps) => {
   const navigate = useNavigate()
   const totalStep = useTotalStep()
+  const [validationSuccessMessage, setValidationSuccessMessage] = useState<string | null>(null)
+  const [validationErrorMessage, setValidationErrorMessage] = useState<string | null>(null)
 
-  const { trigger } = useFormContext()
+  const { mutate: validateIdMutation } = useValidateId()
+  const { getValues, trigger, reset } = useFormContext()
   const { goNextStep } = useStepsActions()
 
   const handleClickCloseButton = () => {
     navigate('/login')
-    // 폼 초기화
+    reset()
   }
 
   const handleClickNextButton = async () => {
-    const isValid = await trigger(['id', 'password'])
+    const isValid = await trigger(['userId', 'password', 'confirm'])
     if (isValid) goNextStep()
+  }
+
+  const handleClickValidateId = async () => {
+    const isValid = await trigger(['userId'])
+    if (isValid) {
+      const userId = getValues('userId')
+      validateIdMutation(
+        { body: { userId: userId } },
+        {
+          onSuccess: (res) => {
+            setValidationSuccessMessage(res.data)
+            setValidationErrorMessage(null)
+          },
+          onError: (error) => {
+            setValidationSuccessMessage(null)
+            setValidationErrorMessage(error.message)
+          },
+        },
+      )
+    }
   }
 
   return (
@@ -36,10 +61,16 @@ export const SignupOneStep = ({ label }: StepProps) => {
 
       <div className="flex-column scroll mx-4 mb-2 mt-[65px] grow gap-7">
         <InputGroup>
-          <InputGroup.Label section="userId">아이디</InputGroup.Label>
+          <InputGroup.Label
+            section="userId"
+            customSuccessMessage={validationSuccessMessage}
+            customErrorMessage={validationErrorMessage}
+          >
+            아이디
+          </InputGroup.Label>
           <div className="flex gap-4">
             <InputGroup.Input section="userId" placeholder="최소 6글자, 최대 12글자" />
-            <Button size="md" onClick={() => {}}>
+            <Button size="md" onClick={handleClickValidateId}>
               중복 확인
             </Button>
           </div>
