@@ -4,4 +4,8 @@
   .scroll {
     @apply overflow-y-scroll scrollbar-hide;
   }
+
+  .hover-scale {
+    @apply transition-all hover:scale-[1.02];
+  }
 }

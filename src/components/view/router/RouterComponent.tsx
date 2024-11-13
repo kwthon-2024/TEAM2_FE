@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 
+import { Home } from '@/components/container'
+
 import { LoginPrivateRoute, PrivateRoute } from './PrivateRouter'
 
 export const RouterComponent = () => {
@@ -11,7 +13,7 @@ export const RouterComponent = () => {
 
       <Route element={<PrivateRoute />}>
         {/* home */}
-        <Route path="/home" element={<div>home</div>} />
+        <Route path="/home" element={<Home />} />
       </Route>
     </Routes>
   )
