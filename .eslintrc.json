@@ -53,7 +53,15 @@
   "settings": {
     "import/resolver": {
       "node": {
+        "paths": ["src"],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "project": "./tsconfig.json"
+      },
+      "alias": {
+        "map": [["~", "@"]],
+        "extensions": [".js", "jsx", ".ts", ".d.ts", ".tsx"]
       }
     }
   }
