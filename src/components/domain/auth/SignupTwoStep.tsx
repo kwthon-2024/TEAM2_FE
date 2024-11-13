@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,10 +13,13 @@ export const SignupTwoStep = ({ label }: StepProps) => {
 
   const [validationSuccessMessage, setValidationSuccessMessage] = useState<string | null>(null)
   const [validationErrorMessage, setValidationErrorMessage] = useState<string | null>(null)
+  const [isNicknameValidated, setIsNicknameValidated] = useState(false)
 
   const { mutate: validateNicknameMutation } = useValidateNickname()
-  const { getValues, trigger, reset } = useFormContext()
+  const { getValues, trigger, reset, watch } = useFormContext()
   const { goNextStep, goPreviousStep } = useStepsActions()
+
+  const watchNicknameField = watch('nickname')
 
   const handleClickCloseButton = () => {
     navigate('/login')
@@ -38,15 +41,21 @@ export const SignupTwoStep = ({ label }: StepProps) => {
           onSuccess: (res) => {
             setValidationSuccessMessage(res.data)
             setValidationErrorMessage(null)
+            setIsNicknameValidated(true)
           },
           onError: (error) => {
             setValidationSuccessMessage(null)
             setValidationErrorMessage(error.message)
+            setIsNicknameValidated(false)
           },
         },
       )
     }
   }
+
+  useEffect(() => {
+    setIsNicknameValidated(false)
+  }, [watchNicknameField])
 
   return (
     <>
@@ -88,7 +97,12 @@ export const SignupTwoStep = ({ label }: StepProps) => {
         </InputGroup>
       </div>
 
-      <Button size="lg" onClick={handleClickNextButton} classname="mt-2 mb-10 mx-4">
+      <Button
+        size="lg"
+        onClick={handleClickNextButton}
+        classname="mt-2 mb-10 mx-4"
+        disabled={!isNicknameValidated}
+      >
         다음으로
       </Button>
     </>

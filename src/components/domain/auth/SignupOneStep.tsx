@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,12 +10,16 @@ import type { StepProps } from '@/types'
 export const SignupOneStep = ({ label }: StepProps) => {
   const navigate = useNavigate()
   const totalStep = useTotalStep()
+
   const [validationSuccessMessage, setValidationSuccessMessage] = useState<string | null>(null)
   const [validationErrorMessage, setValidationErrorMessage] = useState<string | null>(null)
+  const [isIdValidated, setIsIdValidated] = useState(false)
 
-  const { mutate: validateIdMutation } = useValidateId()
-  const { getValues, trigger, reset } = useFormContext()
   const { goNextStep } = useStepsActions()
+  const { mutate: validateIdMutation } = useValidateId()
+  const { getValues, trigger, reset, watch } = useFormContext()
+
+  const watchUserIdField = watch('userId')
 
   const handleClickCloseButton = () => {
     navigate('/login')
@@ -34,18 +38,24 @@ export const SignupOneStep = ({ label }: StepProps) => {
       validateIdMutation(
         { body: { userId: userId } },
         {
-          onSuccess: (res) => {
-            setValidationSuccessMessage(res.data)
+          onSuccess: () => {
+            setValidationSuccessMessage('사용 가능한 아이디입니다')
             setValidationErrorMessage(null)
+            setIsIdValidated(true)
           },
-          onError: (error) => {
+          onError: () => {
             setValidationSuccessMessage(null)
-            setValidationErrorMessage(error.message)
+            setValidationErrorMessage('이미 사용 중인 아이디입니다')
+            setIsIdValidated(false)
           },
         },
       )
     }
   }
+
+  useEffect(() => {
+    setIsIdValidated(false)
+  }, [watchUserIdField])
 
   return (
     <>
@@ -95,7 +105,12 @@ export const SignupOneStep = ({ label }: StepProps) => {
         </InputGroup>
       </div>
 
-      <Button size="lg" onClick={handleClickNextButton} classname="mt-2 mb-10 mx-4">
+      <Button
+        size="lg"
+        onClick={handleClickNextButton}
+        disabled={!isIdValidated}
+        classname="mt-2 mb-10 mx-4"
+      >
         다음으로
       </Button>
     </>
