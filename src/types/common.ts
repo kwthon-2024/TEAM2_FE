@@ -11,3 +11,7 @@ export type KebabMapType = {
   type: string
   placeholder: string
 }[]
+
+export type StepProps = {
+  label: string
+}
