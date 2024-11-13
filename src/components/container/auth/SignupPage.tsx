@@ -20,16 +20,9 @@ export const SignupPage = () => {
     setTotalStep(Object.keys(signupMap).length)
   }, [])
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = formMethod
+  const { handleSubmit } = formMethod
 
   const handleSubmitSignupForm = () => {}
-
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   return (
     <FormProvider {...formMethod}>
