@@ -57,7 +57,8 @@
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       },
       "typescript": {
-        "project": "./tsconfig.json"
+        "tsconfigRootDir": "__dirname",
+        "project": ["./tsconfig.json", "./tsconfig.node.json"]
       },
       "alias": {
         "map": [["~", "@"]],
