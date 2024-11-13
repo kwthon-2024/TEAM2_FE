@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
-import { Home, SignupCompletePage, SignupPage } from '@/components/container'
+import { Home, LoginPage, SignupCompletePage, SignupPage } from '@/components/container'
 
 import { LoginPrivateRoute, PrivateRoute } from './PrivateRouter'
 
@@ -8,7 +8,7 @@ export const RouterComponent = () => {
   return (
     <Routes>
       <Route element={<LoginPrivateRoute />}>
-        <Route path="/login" element={<div>login</div>} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-up/complete" element={<SignupCompletePage />} />
       </Route>

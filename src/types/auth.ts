@@ -8,6 +8,7 @@ export type AuthType = {
   militaryChaplain: IconType
 }
 
+export type LoginFormType = Pick<AuthType, 'userId' | 'password'>
 export type SignupFormType = AuthType & { confirm: string }
 
 export type LoginRequest = {

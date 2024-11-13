@@ -2,6 +2,11 @@ import { z } from 'zod'
 
 const currentYear = new Date().getFullYear()
 
+export const loginSchema = z.object({
+  userId: z.string().min(1, { message: '아이디를 입력해주세요.' }),
+  password: z.string().min(1, { message: '비밀번호를 입력해주세요.' }),
+})
+
 export const signupSchema = z
   .object({
     userId: z
