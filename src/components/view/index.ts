@@ -1,3 +1,4 @@
+export * from './BottomNav'
 export * from './Button'
 export * from './icons/ActiveIcons'
 export * from './icons/NavIcons'
