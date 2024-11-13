@@ -1,6 +1,20 @@
-import type { SignupRequest, ValidateIdRequest, ValidateNicknameRequest } from '@/types'
+import type {
+  LoginRequest,
+  LoginResponse,
+  SignupRequest,
+  ValidateIdRequest,
+  ValidateNicknameRequest,
+} from '@/types'
 
 import { instanceWithoutAuth } from '../service'
+
+export const login = async ({ body }: LoginRequest) => {
+  return await instanceWithoutAuth.post<LoginResponse>(`/login`, body, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+}
 
 export const signup = async ({ body }: SignupRequest) => {
   return await instanceWithoutAuth.post(`/signup`, body)
