@@ -9,6 +9,7 @@ import {
   teammateDetail,
   teammateEdit,
   teammatePage,
+  teammateRecruit,
   teammateSearch,
 } from './teammateApi'
 
@@ -18,6 +19,7 @@ const queryKeys = {
     [...queryKeys.all, ...Object.values(urls)] as const,
   detail: (urls: TeammateDetailRequest['urls']) =>
     [...queryKeys.all, ...Object.values(urls)] as const,
+  recruit: () => [...queryKeys.all, 'recruit'] as const,
 }
 
 export const useTeammatePage = () => {
@@ -26,6 +28,16 @@ export const useTeammatePage = () => {
     queryFn: teammatePage,
     gcTime: 0,
     staleTime: 0,
+  })
+}
+
+export const useTeammateRecruitPage = () => {
+  return useQuery({
+    queryKey: queryKeys.recruit(),
+    queryFn: teammateRecruit,
+    gcTime: 0,
+    staleTime: 0,
+    enabled: false,
   })
 }
 

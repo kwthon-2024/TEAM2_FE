@@ -8,6 +8,7 @@ import type {
   TeammateEditRequest,
   TeammateEditResponse,
   TeammateIsFullRequest,
+  TeammateRecruitResponse,
   TeammateResponse,
   TeammateSearchRequest,
 } from '@/types'
@@ -16,6 +17,10 @@ import { api } from '..'
 
 export const teammatePage = async () => {
   return await api.get<TeammateResponse>(`/view/team`)
+}
+
+export const teammateRecruit = async () => {
+  return await api.get<TeammateRecruitResponse>(`/view/team/recruiting`)
 }
 
 export const teammateSearch = async ({ urls }: TeammateSearchRequest) => {

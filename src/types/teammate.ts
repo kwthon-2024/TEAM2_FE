@@ -37,7 +37,13 @@ export type TeammateResponse = {
 export type TeammateSearchRequest = {
   urls: TeammateSearchType
 }
-export type TeammateSearchResponse = TeammateResponse
+export type TeammateSearchResponse = {
+  result: TeammateType[]
+}
+
+export type TeammateRecruitResponse = {
+  result: TeammateType[]
+}
 
 export type TeammateDetailRequest = {
   urls: Pick<TeammateType, 'teamBoardId'>
