@@ -36,6 +36,7 @@ export const Teammate = () => {
     isPending: isTeammatePending,
     isError: isTeammateError,
   } = useTeammatePage()
+
   const {
     data: teammateRecruitData,
     isPending: isTeammateRecruitPending,
@@ -53,9 +54,6 @@ export const Teammate = () => {
     refetch()
     toggleIsChecked()
   }
-
-  if (isTeammatePending || isTeammateRecruitPending || isTeammateError || isTeammateRecruitError)
-    return <div>loading</div>
 
   const showingData = isChecked ? teammateRecruitData : teammateData
 
@@ -76,20 +74,21 @@ export const Teammate = () => {
       </div>
 
       <div className="scroll grow">
-        {showingData.result.map(
-          ({ teamBoardId, title, createdAt, trainingDate, meetingPlace, meetingTime, full }) => (
-            <PostItem
-              key={teamBoardId}
-              title={title}
-              createdAt={createdAt}
-              trainingDate={trainingDate}
-              place={meetingPlace}
-              time={meetingTime}
-              isFull={full}
-              to={`/teammate/detail/${teamBoardId}`}
-            />
-          ),
-        )}
+        {showingData &&
+          showingData.result.map(
+            ({ teamBoardId, title, createdAt, trainingDate, meetingPlace, meetingTime, full }) => (
+              <PostItem
+                key={teamBoardId}
+                title={title}
+                createdAt={createdAt}
+                trainingDate={trainingDate}
+                place={meetingPlace}
+                time={meetingTime}
+                isFull={full}
+                to={`/teammate/detail/${teamBoardId}`}
+              />
+            ),
+          )}
       </div>
 
       {loginSession && <PostAdditionButton onClick={handleClickAdditionButton} />}

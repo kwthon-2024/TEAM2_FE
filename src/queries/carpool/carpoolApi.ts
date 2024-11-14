@@ -8,6 +8,7 @@ import type {
   CarpoolEditRequest,
   CarpoolEditResponse,
   CarpoolIsFullRequest,
+  CarpoolRecruitResponse,
   CarpoolResponse,
   CarpoolSearchRequest,
 } from '@/types'
@@ -16,6 +17,10 @@ import { api } from '..'
 
 export const carpoolPage = async () => {
   return await api.get<CarpoolResponse>(`/view/carpool`)
+}
+
+export const carpoolRecruit = async () => {
+  return await api.get<CarpoolRecruitResponse>(`/view/carpool/recruiting`)
 }
 
 export const carpoolSearch = async ({ urls }: CarpoolSearchRequest) => {

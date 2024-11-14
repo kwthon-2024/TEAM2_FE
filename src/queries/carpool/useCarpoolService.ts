@@ -9,6 +9,7 @@ import {
   carpoolDetail,
   carpoolEdit,
   carpoolPage,
+  carpoolRecruit,
   carpoolSearch,
 } from './carpoolApi'
 
@@ -18,6 +19,7 @@ const queryKeys = {
     [...queryKeys.all, ...Object.values(urls)] as const,
   detail: (urls: CarpoolDetailRequest['urls']) =>
     [...queryKeys.all, ...Object.values(urls)] as const,
+  recruit: () => [...queryKeys.all, 'recruit'] as const,
 }
 
 export const useCarpoolPage = () => {
@@ -26,6 +28,16 @@ export const useCarpoolPage = () => {
     queryFn: carpoolPage,
     gcTime: 0,
     staleTime: 0,
+  })
+}
+
+export const useCarpoolRecruitPage = () => {
+  return useQuery({
+    queryKey: queryKeys.recruit(),
+    queryFn: carpoolRecruit,
+    gcTime: 0,
+    staleTime: 0,
+    enabled: false,
   })
 }
 
