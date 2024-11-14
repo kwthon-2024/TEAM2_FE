@@ -29,3 +29,7 @@ export const validateId = async ({ body }: ValidateIdRequest) => {
 export const validateNickname = async ({ body }: ValidateNicknameRequest) => {
   return await axios.post(`${BASE_URL}/validate-nickname`, body)
 }
+
+export const reIssue = async () => {
+  return await axios.post(`${BASE_URL}/reissue`)
+}

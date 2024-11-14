@@ -7,6 +7,8 @@ import axios, {
   isAxiosError,
 } from 'axios'
 
+import { reIssue } from './auth/authApi'
+
 export class HttpClient {
   private readonly client: AxiosInstance
   private accessToken: string | null = null
@@ -61,21 +63,22 @@ export class HttpClient {
     const response = error.response as AxiosResponse
 
     if (isAxiosError(error)) {
-      // if (response?.status === 401 || response?.status === 403) {
-      //   try {
-      //     const reIssueResponse = await reIssue(config)
-      //     const newAccessToken = reIssueResponse.headers['authorization']
-      //     this.setAccessToken(newAccessToken)
-      //     const originalRequest = error.config
-      //     if (newAccessToken && originalRequest) {
-      //       originalRequest.headers.Authorization = newAccessToken
-      //       return this.client(originalRequest)
-      //     }
-      //   } catch (reIssueError) {
-      //     console.error('토큰 재발급 실패:', reIssueError)
-      //   }
-      // }
-      // console.error('API 요청 에러:', response.data)
+      if (response?.status === 403) {
+        try {
+          const reIssueResponse = await reIssue()
+          console.log(reIssueResponse)
+          // const newAccessToken = reIssueResponse.headers['authorization']
+          // this.setAccessToken(newAccessToken)
+          // const originalRequest = error.config
+          // if (newAccessToken && originalRequest) {
+          //   originalRequest.headers.Authorization = newAccessToken
+          //   return this.client(originalRequest)
+          // }
+        } catch (reIssueError) {
+          console.error('토큰 재발급 실패:', reIssueError)
+        }
+      }
+      console.error('API 요청 에러:', response.data)
     }
 
     return Promise.reject(error)
