@@ -1,11 +1,11 @@
 import { Fragment } from 'react/jsx-runtime'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import chainImage from '@/assets/chain.svg'
 import { BottomNav, ProfileImage } from '@/components/view'
-import { useMypage } from '@/queries'
+import { useExitUser, useLogout, useMypage } from '@/queries'
 import type { IconType } from '@/types'
-import { getSessionStorageItem, SESSION_MILITARY_CHPLAIN } from '@/utils'
+import { clearSessionStorage, getSessionStorageItem, SESSION_MILITARY_CHPLAIN } from '@/utils'
 
 const mypageArr = [
   {
@@ -22,8 +22,29 @@ const mypageArr = [
 ] as const
 
 export const Mypage = () => {
+  const navigate = useNavigate()
   const iconType = getSessionStorageItem(SESSION_MILITARY_CHPLAIN) as IconType | null
   const { data: mypageData, isPending, isError } = useMypage()
+  const { mutate: logoutMutation } = useLogout()
+  const { mutate: exitMutation } = useExitUser()
+
+  const handleClickLogout = () => {
+    logoutMutation(undefined, {
+      onSuccess: () => {
+        clearSessionStorage()
+        navigate('/login')
+      },
+    })
+  }
+
+  const handleClickExit = () => {
+    exitMutation(undefined, {
+      onSuccess: () => {
+        clearSessionStorage()
+        navigate('/login')
+      },
+    })
+  }
 
   if (isPending || isError) return <div>loading</div>
 
@@ -59,8 +80,15 @@ export const Mypage = () => {
           ))}
 
           <div className="flex-align ml-auto mt-[3svh] px-1">
-            <button className="p-small border-r border-r-grey-4 px-4 text-grey-6">로그아웃</button>
-            <button className="p-small px-4 text-red-2">회원탈퇴</button>
+            <button
+              className="p-small border-r border-r-grey-4 px-4 text-grey-6"
+              onClick={handleClickLogout}
+            >
+              로그아웃
+            </button>
+            <button className="p-small px-4 text-red-2" onClick={handleClickExit}>
+              회원탈퇴
+            </button>
           </div>
         </div>
       </div>

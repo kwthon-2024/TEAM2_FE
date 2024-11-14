@@ -4,7 +4,9 @@ import {
   mypageAccount,
   mypageAccountEdit,
   mypageCarpool,
+  mypageExit,
   mypageInfo,
+  mypageLogout,
   mypagePassword,
   mypageTeammate,
 } from './mypageApi'
@@ -60,5 +62,17 @@ export const useMypageAccountEdit = () => {
 export const useMypageNewPassword = () => {
   return useMutation({
     mutationFn: mypagePassword,
+  })
+}
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: mypageLogout,
+  })
+}
+
+export const useExitUser = () => {
+  return useMutation({
+    mutationFn: mypageExit,
   })
 }
