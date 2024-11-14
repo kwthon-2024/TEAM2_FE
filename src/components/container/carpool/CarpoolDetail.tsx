@@ -61,7 +61,7 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
   }
 
   const myKebabMap = [
-    { label: '수정하기', onClick: () => console.log('수정하기') },
+    { label: '수정하기', onClick: () => navigate(`/carpool/edit/${id}`) },
     { label: isFull ? '모집 중으로 변경' : '모집 완료로 변경', onClick: handleClickCheckFull },
     { label: '삭제하기', onClick: openModal },
   ]
@@ -78,7 +78,7 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
         <Kebab
           list={isMyPost ? myKebabMap : kebabMap}
           location="right-4 top-12"
-          redIndex={isMyPost ? 0 : 2}
+          redIndex={isMyPost ? 2 : 0}
         />
       )}
 

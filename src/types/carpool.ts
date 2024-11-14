@@ -53,6 +53,10 @@ export type CarpoolCreateRequest = {
 }
 export type CarpoolCreateResponse = Pick<CarpoolType, 'carpoolBoardId'>
 
+export type CarpoolEditPageRequest = {
+  urls: Pick<CarpoolType, 'carpoolBoardId'>
+}
+
 export type CarpoolEditRequest = {
   body: Omit<CarpoolDetailType, 'createdAt'>
   urls: Pick<CarpoolType, 'carpoolBoardId'>

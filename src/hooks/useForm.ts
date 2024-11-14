@@ -1,8 +1,15 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from 'dayjs'
 
-import { mypageAccount } from '@/queries'
-import type { AccountFormType, CarpoolFormType, LoginFormType, SignupFormType } from '@/types'
+import { carpoolEditPage, mypageAccount } from '@/queries'
+import type {
+  AccountFormType,
+  CarpoolEditPageRequest,
+  CarpoolFormType,
+  LoginFormType,
+  SignupFormType,
+} from '@/types'
 import { accountSchema, carpoolSchema, loginSchema, signupSchema } from '@/utils'
 
 export const useLoginForm = () => {
@@ -46,6 +53,26 @@ export const useCarpoolCreateForm = () => {
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     resolver: zodResolver(carpoolSchema),
+  })
+
+  return formMethod
+}
+
+export const useCarpoolEditForm = (request: CarpoolEditPageRequest) => {
+  const getDefaultValues = async () => {
+    const { departTime, trainingDate, ...rest } = await carpoolEditPage(request)
+    const hour = parseInt(departTime.split(':')[0], 10)
+    const minute = parseInt(departTime.split(':')[1], 10)
+    const date = dayjs(trainingDate).format('YYYYMMDD')
+
+    return { hour, minute, trainingDate: date, ...rest }
+  }
+
+  const formMethod = useForm<CarpoolFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(carpoolSchema),
+    defaultValues: getDefaultValues,
   })
 
   return formMethod

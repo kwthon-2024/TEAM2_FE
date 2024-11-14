@@ -1,9 +1,13 @@
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
 import { Button, InputGroup, SubHeaderWithoutIcon } from '@/components/view'
+import { useCarpoolEditForm } from '@/hooks'
 
 export const CarpoolEdit = () => {
-  const formMethod = useForm()
+  const { id } = useParams()
+  const formMethod = useCarpoolEditForm({ urls: { carpoolBoardId: parseInt(id as string) } })
+
   const { handleSubmit, setValue } = formMethod
   const handleSubmitForm = () => {}
 
@@ -27,15 +31,15 @@ export const CarpoolEdit = () => {
           </InputGroup>
 
           <InputGroup>
-            <InputGroup.Label section="title">출발 장소</InputGroup.Label>
-            <InputGroup.Input section="title" placeholder="출발 장소를 입력해주세요." />
+            <InputGroup.Label section="departPlace">출발 장소</InputGroup.Label>
+            <InputGroup.Input section="departPlace" placeholder="출발 장소를 입력해주세요." />
           </InputGroup>
 
           <div className="grid grid-cols-2 gap-5">
             <InputGroup>
-              <InputGroup.Label section="numberOfPeople">모집 인원</InputGroup.Label>
+              <InputGroup.Label section="personnel">모집 인원</InputGroup.Label>
               <InputGroup.UnitInput
-                section="numberOfPeople"
+                section="personnel"
                 type="number"
                 unitLabel="명"
                 placeholder="0"
@@ -43,7 +47,7 @@ export const CarpoolEdit = () => {
             </InputGroup>
 
             <InputGroup>
-              <InputGroup.Label section="time">시간</InputGroup.Label>
+              <InputGroup.Label section="hour">시간</InputGroup.Label>
               <InputGroup.TimeInput hourSection="hour" minuteSection="minute" />
             </InputGroup>
           </div>

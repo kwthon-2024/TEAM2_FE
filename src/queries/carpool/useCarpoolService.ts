@@ -1,10 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import type {
-  CarpoolDetailRequest,
-  CarpoolEditRequest,
-  CarpoolSearchRequest,
-} from '@/types/carpool'
+import type { CarpoolDetailRequest, CarpoolSearchRequest } from '@/types/carpool'
 
 import {
   carpoolCheckFull,
@@ -12,7 +8,6 @@ import {
   carpoolDelete,
   carpoolDetail,
   carpoolEdit,
-  carpoolEditPage,
   carpoolPage,
   carpoolSearch,
 } from './carpoolApi'
@@ -23,7 +18,6 @@ const queryKeys = {
     [...queryKeys.all, ...Object.values(urls)] as const,
   detail: (urls: CarpoolDetailRequest['urls']) =>
     [...queryKeys.all, ...Object.values(urls)] as const,
-  edit: (urls: CarpoolEditRequest['urls']) => [...queryKeys.all, ...Object.values(urls)] as const,
 }
 
 export const useCarpoolPage = () => {
@@ -46,13 +40,6 @@ export const useCarpoolDetailPage = (request: CarpoolDetailRequest) => {
   return useQuery({
     queryKey: queryKeys.detail(request.urls),
     queryFn: () => carpoolDetail(request),
-  })
-}
-
-export const useCarpoolEditPage = (request: CarpoolEditRequest) => {
-  return useQuery({
-    queryKey: queryKeys.edit(request.urls),
-    queryFn: () => carpoolEditPage(request),
   })
 }
 
