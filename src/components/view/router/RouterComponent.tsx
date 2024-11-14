@@ -2,6 +2,10 @@ import { Route, Routes } from 'react-router-dom'
 
 import {
   AccountInfo,
+  Carpool,
+  CarpoolCreate,
+  CarpoolDetail,
+  CarpoolEdit,
   Home,
   LoginPage,
   Mypage,
@@ -23,6 +27,12 @@ export const RouterComponent = () => {
       <Route element={<PrivateRoute />}>
         {/* home */}
         <Route path="/home" element={<Home />} />
+
+        {/* carpool */}
+        <Route path="/carpool" element={<Carpool />} />
+        <Route path="/carpool/detail/:id" element={<CarpoolDetail />} />
+        <Route path="/carpool/create" element={<CarpoolCreate />} />
+        <Route path="/carpool/edit/:id" element={<CarpoolEdit />} />
 
         {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />
