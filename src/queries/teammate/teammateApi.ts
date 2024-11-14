@@ -37,7 +37,7 @@ export const teammateEditPage = async ({ urls }: TeammateEditPageRequest) => {
 }
 
 export const teammateEdit = async ({ body, urls }: TeammateEditRequest) => {
-  return await api.put(`/team/${urls.teamBoardId}`, body)
+  return await api.put(`/team/edit/${urls.teamBoardId}`, body)
 }
 
 export const teammateDelete = async ({ urls }: TeammateDeleteRequest) => {
