@@ -28,6 +28,9 @@ type CarpoolDetailType = {
   content: string
 }
 
+export type CarpoolFormType = Pick<CarpoolType, 'title' | 'trainingDate' | 'departPlace'> &
+  CarpoolDetailType & { hour: number; minute: number }
+
 export type CarpoolResponse = {
   result: CarpoolType[]
 }
@@ -46,8 +49,9 @@ export type CarpoolDetailResponse = CarpoolType &
   }
 
 export type CarpoolCreateRequest = {
-  body: Omit<CarpoolDetailType, 'createdAt'>
+  body: Pick<CarpoolType, 'title' | 'trainingDate' | 'departPlace'> & CarpoolDetailType
 }
+export type CarpoolCreateResponse = Pick<CarpoolType, 'carpoolBoardId'>
 
 export type CarpoolEditRequest = {
   body: Omit<CarpoolDetailType, 'createdAt'>

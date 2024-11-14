@@ -59,3 +59,16 @@ export const accountSchema = z
     path: ['militaryChaplain'],
     message: '군종을 선택해주세요.',
   })
+
+export const carpoolSchema = z.object({
+  title: z.string().min(1, { message: '제목을 입력해주세요.' }),
+  trainingDate: z.string().min(1, { message: '훈련 날짜를 입력해주세요.' }),
+  departPlace: z.string().min(1, { message: '출발 장소를 입력해주세요.' }),
+  personnel: z
+    .union([z.string(), z.number()])
+    .transform((value) => (typeof value === 'string' ? parseInt(value, 10) : value)),
+  hour: z.string(),
+  minute: z.string(),
+  price: z.union([z.string(), z.number()]),
+  content: z.string(),
+})

@@ -1,12 +1,13 @@
 import type {
   CarpoolCreateRequest,
+  CarpoolCreateResponse,
   CarpoolDeleteRequest,
   CarpoolDetailRequest,
   CarpoolEditRequest,
   CarpoolIsFullRequest,
   CarpoolResponse,
   CarpoolSearchRequest,
-} from '@/types/carpool'
+} from '@/types'
 
 import { api } from '..'
 
@@ -25,7 +26,7 @@ export const carpoolDetail = async ({ urls }: CarpoolDetailRequest) => {
 }
 
 export const carpoolCreate = async ({ body }: CarpoolCreateRequest) => {
-  return await api.post(`/carpool`, body)
+  return await api.post<CarpoolCreateResponse>(`/carpool`, body)
 }
 
 export const carpoolEditPage = async ({ urls }: Omit<CarpoolEditRequest, 'body'>) => {

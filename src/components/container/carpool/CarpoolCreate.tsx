@@ -1,20 +1,45 @@
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 import { Button, InputGroup, SubHeaderWithoutIcon } from '@/components/view'
+import { useCarpoolCreateForm } from '@/hooks'
+import { useCarpoolCreate } from '@/queries'
+import type { CarpoolFormType } from '@/types'
 
 export const CarpoolCreate = () => {
-  const formMethod = useForm()
+  const navigate = useNavigate()
+  const formMethod = useCarpoolCreateForm()
   const { handleSubmit, setValue } = formMethod
-  const handleSubmitForm = () => {}
+  const { mutate: carpoolMutation } = useCarpoolCreate()
+
+  const handleSubmitForm = (formData: CarpoolFormType) => {
+    const { hour, minute, trainingDate, ...rest } = formData
+    const sendingFormData = {
+      trainingDate: dayjs(trainingDate, 'YYYYMMDD').format('YYYY-MM-DD'),
+      departTime: `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`,
+      ...rest,
+    }
+
+    carpoolMutation(
+      { body: sendingFormData },
+      {
+        onSuccess: ({ carpoolBoardId }) =>
+          navigate(`/carpool/detail/${carpoolBoardId}`, { replace: true }),
+      },
+    )
+  }
+
   return (
     <div className="flex-column h-svh">
-      <SubHeaderWithoutIcon type="complete" title="카풀 모집 등록" />
-
       <FormProvider {...formMethod}>
-        <form
-          className="flex-column scroll mb-4 mt-5 gap-5 px-4"
-          onSubmit={handleSubmit(handleSubmitForm)}
-        >
+        <SubHeaderWithoutIcon
+          type="complete"
+          title="카풀 모집 등록"
+          onClickComplete={handleSubmit(handleSubmitForm)}
+        />
+
+        <form className="flex-column scroll mb-4 mt-5 gap-5 px-4">
           <InputGroup>
             <InputGroup.Label section="title">제목</InputGroup.Label>
             <InputGroup.Input section="title" placeholder="제목을 입력해주세요." />
@@ -26,15 +51,15 @@ export const CarpoolCreate = () => {
           </InputGroup>
 
           <InputGroup>
-            <InputGroup.Label section="title">출발 장소</InputGroup.Label>
-            <InputGroup.Input section="title" placeholder="출발 장소를 입력해주세요." />
+            <InputGroup.Label section="departPlace">출발 장소</InputGroup.Label>
+            <InputGroup.Input section="departPlace" placeholder="출발 장소를 입력해주세요." />
           </InputGroup>
 
           <div className="grid grid-cols-2 gap-5">
             <InputGroup>
-              <InputGroup.Label section="numberOfPeople">모집 인원</InputGroup.Label>
+              <InputGroup.Label section="personnel">모집 인원</InputGroup.Label>
               <InputGroup.UnitInput
-                section="numberOfPeople"
+                section="personnel"
                 type="number"
                 unitLabel="명"
                 placeholder="0"
@@ -42,7 +67,7 @@ export const CarpoolCreate = () => {
             </InputGroup>
 
             <InputGroup>
-              <InputGroup.Label section="time">시간</InputGroup.Label>
+              <InputGroup.Label section="hour">시간</InputGroup.Label>
               <InputGroup.TimeInput hourSection="hour" minuteSection="minute" />
             </InputGroup>
           </div>
@@ -58,8 +83,8 @@ export const CarpoolCreate = () => {
           </InputGroup>
 
           <InputGroup>
-            <InputGroup.Label section="memo">메모</InputGroup.Label>
-            <InputGroup.TextArea section="memo" placeholder="원하시는 메모 내용을 적어주세요." />
+            <InputGroup.Label section="content">메모</InputGroup.Label>
+            <InputGroup.TextArea section="content" placeholder="원하시는 메모 내용을 적어주세요." />
           </InputGroup>
         </form>
       </FormProvider>
