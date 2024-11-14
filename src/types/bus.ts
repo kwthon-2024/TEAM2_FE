@@ -5,6 +5,8 @@ type BusType = {
   reserved: boolean
 }
 
+export type BusFormType = Omit<BusType, 'reserved'>
+
 export type BusReserveReqeust = {
   body: Omit<BusType, 'reserved'>
 }

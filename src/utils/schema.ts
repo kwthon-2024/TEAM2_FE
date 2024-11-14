@@ -84,3 +84,12 @@ export const teammateSchema = z.object({
   minute: z.union([z.string(), z.number()]),
   content: z.string(),
 })
+
+export const busSchema = z.object({
+  name: z.string().min(1, { message: '이름을 입력해주세요.' }),
+  studentId: z.string().length(10, { message: '학번은 10자리 숫자여야 합니다.' }),
+  phoneNumber: z
+    .string()
+    .min(9, { message: '전화번호를 확인해주세요.' })
+    .max(11, { message: '전화번호는 11자리 이하입니다.' }),
+})

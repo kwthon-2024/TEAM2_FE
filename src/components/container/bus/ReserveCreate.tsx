@@ -1,24 +1,31 @@
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, InputGroup, ModalWithOneButton, SubHeaderWithoutIcon } from '@/components/view'
-import { useBoolean } from '@/hooks'
+import { useBoolean, useBusForm } from '@/hooks'
+import { useBuseReserve } from '@/queries'
+import type { BusFormType } from '@/types'
 
 export const ReserveCreate = () => {
-  const formMethod = useForm()
+  const formMethod = useBusForm()
   const navigate = useNavigate()
   const { handleSubmit, reset } = formMethod
 
   const [modalState, openModal, closeModal] = useBoolean(false)
+  const { mutate: busMutation } = useBuseReserve()
 
   const handleClickCancle = () => {
     reset()
     navigate(-1)
   }
 
-  const handleSubmitInfo = () => {
-    // 폼 제출
-    openModal()
+  const handleSubmitInfo = (formData: BusFormType) => {
+    busMutation(
+      { body: formData },
+      {
+        onSuccess: openModal,
+      },
+    )
   }
 
   const handleClickCloseModal = () => {
@@ -40,8 +47,12 @@ export const ReserveCreate = () => {
           </InputGroup>
 
           <InputGroup>
-            <InputGroup.Label section="id">학번</InputGroup.Label>
-            <InputGroup.Input section="id" type="number" placeholder="학번을 입력해주세요." />
+            <InputGroup.Label section="studentId">학번</InputGroup.Label>
+            <InputGroup.Input
+              section="studentId"
+              type="number"
+              placeholder="학번을 입력해주세요."
+            />
           </InputGroup>
 
           <InputGroup>
