@@ -67,8 +67,8 @@ export const carpoolSchema = z.object({
   personnel: z
     .union([z.string(), z.number()])
     .transform((value) => (typeof value === 'string' ? parseInt(value, 10) : value)),
-  hour: z.string(),
-  minute: z.string(),
+  hour: z.union([z.string(), z.number()]),
+  minute: z.union([z.string(), z.number()]),
   price: z.union([z.string(), z.number()]),
   content: z.string(),
 })

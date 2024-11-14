@@ -1,25 +1,46 @@
 import { FormProvider } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 import { Button, InputGroup, SubHeaderWithoutIcon } from '@/components/view'
 import { useCarpoolEditForm } from '@/hooks'
+import { useCarpoolEdit } from '@/queries'
+import type { CarpoolFormType } from '@/types'
 
 export const CarpoolEdit = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const formMethod = useCarpoolEditForm({ urls: { carpoolBoardId: parseInt(id as string) } })
 
   const { handleSubmit, setValue } = formMethod
-  const handleSubmitForm = () => {}
+  const { mutate: editMutation } = useCarpoolEdit()
+
+  const handleSubmitForm = (formData: CarpoolFormType) => {
+    const { hour, minute, trainingDate, price, ...rest } = formData
+    const sendingFormData = {
+      trainingDate: dayjs(trainingDate, 'YYYYMMDD').format('YYYY-MM-DD'),
+      departTime: `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`,
+      price: parseInt(price.toString().replace(/,/g, ''), 10),
+      ...rest,
+    }
+
+    editMutation(
+      { body: sendingFormData, urls: { carpoolBoardId: parseInt(id as string) } },
+      {
+        onSuccess: () => navigate(`/carpool/detail/${id}`, { replace: true }),
+      },
+    )
+  }
 
   return (
     <div className="flex-column h-svh">
-      <SubHeaderWithoutIcon type="complete" title="카풀 모집 수정" />
-
       <FormProvider {...formMethod}>
-        <form
-          className="flex-column scroll mb-4 mt-5 gap-5 px-4"
-          onSubmit={handleSubmit(handleSubmitForm)}
-        >
+        <SubHeaderWithoutIcon
+          type="complete"
+          title="카풀 모집 수정"
+          onClickComplete={handleSubmit(handleSubmitForm)}
+        />
+        <form className="flex-column scroll mb-4 mt-5 gap-5 px-4">
           <InputGroup>
             <InputGroup.Label section="title">제목</InputGroup.Label>
             <InputGroup.Input section="title" placeholder="제목을 입력해주세요." />
