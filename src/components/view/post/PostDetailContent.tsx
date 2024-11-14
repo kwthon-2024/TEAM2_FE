@@ -18,7 +18,7 @@ const InfoField = ({ label, content }: InfoFieldProps) => {
   return (
     <div className="flex-column w-full gap-1">
       <p className="p-small font-medium text-blue-5">{label}</p>
-      <p className="p-large text-grey-7">{content}</p>
+      <p className="p-large text-grey-6">{content}</p>
     </div>
   )
 }

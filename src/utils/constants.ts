@@ -16,3 +16,9 @@ export const MILITARY_BRANCHES = {
   공군: 'AIRFORCE',
   기타: 'ETC',
 } as const
+
+export const KEBAB_LIST = {
+  title: '제목',
+  trainingDate: '훈련 날짜',
+  departPlace: '출발 장소',
+} as const
