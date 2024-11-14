@@ -21,3 +21,8 @@ export * from './teammate/Teammate'
 export * from './teammate/TeammateCreate'
 export * from './teammate/TeammateDetail'
 export * from './teammate/TeammateEdit'
+
+// bus
+export * from './bus/BusReserve'
+export * from './bus/ReserveCreate'
+export * from './bus/ReserveInfo'
