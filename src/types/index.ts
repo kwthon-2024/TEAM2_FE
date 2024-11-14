@@ -1,4 +1,5 @@
 export * from './auth'
+export * from './bus'
 export * from './carpool'
 export * from './common'
 export * from './mypage'
