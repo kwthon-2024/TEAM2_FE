@@ -3,6 +3,7 @@ import type {
   CarpoolCreateResponse,
   CarpoolDeleteRequest,
   CarpoolDetailRequest,
+  CarpoolDetailResponse,
   CarpoolEditRequest,
   CarpoolIsFullRequest,
   CarpoolResponse,
@@ -22,7 +23,7 @@ export const carpoolSearch = async ({ urls }: CarpoolSearchRequest) => {
 }
 
 export const carpoolDetail = async ({ urls }: CarpoolDetailRequest) => {
-  return await api.get(`/view/carpool/${urls.carpoolBoardId}`)
+  return await api.get<CarpoolDetailResponse>(`/view/carpool/${urls.carpoolBoardId}`)
 }
 
 export const carpoolCreate = async ({ body }: CarpoolCreateRequest) => {

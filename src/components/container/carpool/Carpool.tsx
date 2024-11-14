@@ -8,6 +8,7 @@ import {
   RecruitmentLabel,
   SearchWithFilter,
 } from '@/components/view'
+import { useCarpoolPage } from '@/queries'
 import type { KebabMapType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY } from '@/utils'
 
@@ -33,9 +34,13 @@ export const Carpool = () => {
   const navigate = useNavigate()
   const loginSession = getSessionStorageItem(SESSION_LOGIN_KEY)
 
+  const { data: carpoolData, isPending, isError } = useCarpoolPage()
+
   const handleClickAdditionButton = () => {
     navigate('/carpool/create')
   }
+
+  if (isPending || isError) return <div>loading</div>
 
   return (
     <div className="flex-column h-full">
@@ -44,19 +49,21 @@ export const Carpool = () => {
       <SearchWithFilter kebabMap={kebabMap} onClickSearchButton={() => {}} />
       <RecruitmentLabel onClick={() => {}} />
 
-      <div className="scroll">
-        {[...Array(7)].map((_, index) => (
-          <PostItem
-            key={index}
-            title="소프트 카풀 구해요"
-            createdAt="12:43"
-            trainingDate="05/21"
-            place="종로3가 1번 출구"
-            time="07:30"
-            isFull={false}
-            to={`/carpool/detail/${index}`}
-          />
-        ))}
+      <div className="scroll grow">
+        {carpoolData.result.map(
+          ({ carpoolBoardId, title, createdAt, trainingDate, departPlace, departTime, full }) => (
+            <PostItem
+              key={carpoolBoardId}
+              title={title}
+              createdAt={createdAt}
+              trainingDate={trainingDate}
+              place={departPlace}
+              time={departTime}
+              isFull={full}
+              to={`/carpool/detail/${carpoolBoardId}`}
+            />
+          ),
+        )}
       </div>
 
       {loginSession && <PostAdditionButton onClick={handleClickAdditionButton} />}

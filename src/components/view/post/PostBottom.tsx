@@ -4,6 +4,7 @@ import { Button } from '../Button'
 import { BookmarkIcon } from '../icons/ActiveIcons'
 
 type PostBottomProps = {
+  isMyPost?: boolean
   disabled?: boolean
   initialBookmarkState?: boolean
   onClickBookmark: VoidFunction
@@ -11,6 +12,7 @@ type PostBottomProps = {
 }
 
 export const PostBottom = ({
+  isMyPost = false,
   disabled = false,
   initialBookmarkState = false,
   onClickBookmark,
@@ -33,7 +35,13 @@ export const PostBottom = ({
         <BookmarkIcon active={isBookmarked} />
         <p className="p-xsmall text-grey-5">북마크</p>
       </button>
-      <Button classname="grow" size="sm" onClick={onClickChattingButton} disabled={disabled}>
+      <Button
+        classname="grow"
+        secondary={isMyPost}
+        size="sm"
+        onClick={isMyPost ? undefined : onClickChattingButton}
+        disabled={disabled}
+      >
         {disabled ? '모집 마감' : '채팅하기'}
       </Button>
     </div>
