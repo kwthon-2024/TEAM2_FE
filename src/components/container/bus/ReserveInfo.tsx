@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, InputGroup, SubHeaderWithoutIcon } from '@/components/view'
+import { useBusReserveInfoForm } from '@/hooks'
+import { useBusReserveInfo } from '@/queries'
 
 const stateObj = {
   '신청 완료': 'text-blue-5',
@@ -13,18 +15,22 @@ const stateObj = {
 type StateType = keyof typeof stateObj
 
 export const ReserveInfo = () => {
-  const formMethod = useForm()
+  const formMethod = useBusReserveInfoForm()
   const navigate = useNavigate()
-  const { handleSubmit, reset } = formMethod
+  const { handleSubmit, reset, watch } = formMethod
 
   const [state, setState] = useState<StateType>('조회 전')
+  const studentId = watch('studentId')
+  const { refetch } = useBusReserveInfo({ urls: { studentId } })
 
   const handleClickCloseButton = () => {
     reset()
     navigate(-1)
   }
-  const handleSubmitInfo = () => {
-    setState('신청 완료')
+  const handleSubmitInfo = async () => {
+    const { data, isSuccess, isError } = await refetch()
+    if (isSuccess) setState(data.reserved ? '신청 완료' : '정보 없음')
+    if (isError) setState('정보 없음')
   }
 
   return (
@@ -36,9 +42,9 @@ export const ReserveInfo = () => {
         <FormProvider {...formMethod}>
           <form onSubmit={handleSubmit(handleSubmitInfo)}>
             <InputGroup>
-              <InputGroup.Label section="id">학번</InputGroup.Label>
+              <InputGroup.Label section="studentId">학번</InputGroup.Label>
               <div className="flex gap-4">
-                <InputGroup.Input section="id" placeholder="학번을 입력해주세요." />
+                <InputGroup.Input section="studentId" placeholder="학번을 입력해주세요." />
                 <Button size="md" type="submit">
                   조회하기
                 </Button>

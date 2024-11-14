@@ -6,6 +6,7 @@ type BusType = {
 }
 
 export type BusFormType = Omit<BusType, 'reserved'>
+export type BusInfoFormType = Pick<BusType, 'studentId'>
 
 export type BusReserveReqeust = {
   body: Omit<BusType, 'reserved'>

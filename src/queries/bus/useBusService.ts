@@ -14,6 +14,7 @@ export const useBusReserveInfo = (request: BusReserveInfoReqeust) => {
   return useQuery({
     queryKey: queryKeys.reserveInfo(request.urls),
     queryFn: () => busReserveInfo(request),
+    enabled: false,
   })
 }
 

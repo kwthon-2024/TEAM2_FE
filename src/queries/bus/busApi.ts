@@ -3,7 +3,7 @@ import type { BusReserveInfoReqeust, BusReserveInfoResponse, BusReserveReqeust }
 import { api } from '..'
 
 export const busReserveInfo = async ({ urls }: BusReserveInfoReqeust) => {
-  return await api.get<BusReserveInfoResponse>(`/mypage/${urls.studentId}`)
+  return await api.get<BusReserveInfoResponse>(`/bus/reservation/${urls.studentId}`)
 }
 
 export const busReserve = async ({ body }: BusReserveReqeust) => {

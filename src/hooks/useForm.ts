@@ -6,6 +6,7 @@ import { carpoolEditPage, mypageAccount, teammateEditPage } from '@/queries'
 import type {
   AccountFormType,
   BusFormType,
+  BusInfoFormType,
   CarpoolEditPageRequest,
   CarpoolFormType,
   LoginFormType,
@@ -15,6 +16,7 @@ import type {
 } from '@/types'
 import {
   accountSchema,
+  busReserveInfoSchema,
   busSchema,
   carpoolSchema,
   loginSchema,
@@ -123,6 +125,16 @@ export const useBusForm = () => {
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     resolver: zodResolver(busSchema),
+  })
+
+  return formMethod
+}
+
+export const useBusReserveInfoForm = () => {
+  const formMethod = useForm<BusInfoFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(busReserveInfoSchema),
   })
 
   return formMethod

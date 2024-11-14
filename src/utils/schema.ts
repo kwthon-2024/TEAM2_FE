@@ -93,3 +93,7 @@ export const busSchema = z.object({
     .min(9, { message: '전화번호를 확인해주세요.' })
     .max(11, { message: '전화번호는 11자리 이하입니다.' }),
 })
+
+export const busReserveInfoSchema = z.object({
+  studentId: z.string().length(10, { message: '학번은 10자리 숫자여야 합니다.' }),
+})
