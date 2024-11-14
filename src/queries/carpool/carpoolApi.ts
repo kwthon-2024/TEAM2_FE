@@ -37,7 +37,7 @@ export const carpoolEditPage = async ({ urls }: CarpoolEditPageRequest) => {
 }
 
 export const carpoolEdit = async ({ body, urls }: CarpoolEditRequest) => {
-  return await api.put(`/carpool/${urls.carpoolBoardId}`, body)
+  return await api.put(`/carpool/edit/${urls.carpoolBoardId}`, body)
 }
 
 export const carpoolDelete = async ({ urls }: CarpoolDeleteRequest) => {
