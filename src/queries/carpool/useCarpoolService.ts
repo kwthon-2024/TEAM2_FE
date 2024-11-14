@@ -90,7 +90,12 @@ export const useCarpoolDelete = () => {
 }
 
 export const useCarpoolCheckFull = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: carpoolCheckFull,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all })
+    },
   })
 }

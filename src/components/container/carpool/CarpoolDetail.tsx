@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   Kebab,
@@ -9,12 +9,13 @@ import {
   SubHeaderWithoutIcon,
 } from '@/components/view'
 import { useBoolean } from '@/hooks'
-import { useCarpoolDetailPage } from '@/queries'
+import { useCarpoolCheckFull, useCarpoolDelete, useCarpoolDetailPage } from '@/queries'
 import type { IconType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY, SESSION_NICKNAME } from '@/utils'
 
 type HeaderProps = {
   isMyPost: boolean
+  isFull: boolean
 }
 
 type InfoFieldProps = {
@@ -31,19 +32,39 @@ const InfoField = ({ label, content }: InfoFieldProps) => {
   )
 }
 
-const Header = ({ isMyPost }: HeaderProps) => {
+const Header = ({ isMyPost, isFull }: HeaderProps) => {
+  const { id } = useParams()
+  const navigate = useNavigate()
   const loginSession = getSessionStorageItem(SESSION_LOGIN_KEY)
 
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
   const [modalState, openModal, closeModal] = useBoolean(false)
 
-  const kebabMap = [
+  const { mutate: deleteMutation } = useCarpoolDelete()
+  const { mutate: checkFullMutation } = useCarpoolCheckFull()
+
+  const kebabMap = [{ label: '차단하기', onClick: () => console.log('차단하기') }]
+
+  const handleClickCheckFull = () => {
+    checkFullMutation({ body: { full: !isFull }, urls: { carpoolBoardId: parseInt(id as string) } })
+  }
+
+  const handleClickModalDelete = () => {
+    deleteMutation(
+      { urls: { carpoolBoardId: parseInt(id as string) } },
+      {
+        onSuccess: () => {
+          navigate('/carpool', { replace: true })
+        },
+      },
+    )
+  }
+
+  const myKebabMap = [
     { label: '수정하기', onClick: () => console.log('수정하기') },
-    { label: '모집 완료로 변경', onClick: () => console.log('모집 완료로 변경') },
+    { label: isFull ? '모집 중으로 변경' : '모집 완료로 변경', onClick: handleClickCheckFull },
     { label: '삭제하기', onClick: openModal },
   ]
-
-  const myKebabMap = [{ label: '차단하기', onClick: () => console.log('차단하기') }]
 
   return (
     <>
@@ -68,7 +89,7 @@ const Header = ({ isMyPost }: HeaderProps) => {
         cancleButtonLabel="취소"
         completeButtonLabel="삭제"
         cancleOnClick={closeModal}
-        completeOnClick={() => {}}
+        completeOnClick={handleClickModalDelete}
       />
     </>
   )
@@ -101,7 +122,7 @@ export const CarpoolDetail = () => {
   return (
     <>
       <div className="flex-column h-full">
-        <Header isMyPost={isMyPost} />
+        <Header isMyPost={isMyPost} isFull={full} />
         <PostProfile
           name={author.nickname}
           iconType={author.militaryChaplain as IconType}
