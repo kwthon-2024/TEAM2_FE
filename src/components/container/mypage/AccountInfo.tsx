@@ -2,42 +2,48 @@ import { FormProvider } from 'react-hook-form'
 
 import { Button, InputGroup, ModalWithOneButton, SubHeaderWithoutIcon } from '@/components/view'
 import { useAccountForm, useBoolean } from '@/hooks'
+import { useMypageAccountEdit } from '@/queries'
+import type { AccountFormType } from '@/types'
+import { SESSION_MILITARY_CHPLAIN, SESSION_NICKNAME, setSessionStorageItem } from '@/utils'
 
 export const AccountInfo = () => {
   const formMethod = useAccountForm()
-  const { handleSubmit } = formMethod
+  const { getValues, handleSubmit } = formMethod
+  const { mutate: accountMutation } = useMypageAccountEdit()
 
   const [isEditMode, setIsEditModeTrue, setIsEditModeFalse] = useBoolean(false)
   const [modalState, openModal, closeModal] = useBoolean(false)
 
   const currentMode = isEditMode ? 'complete' : 'edit'
 
-  // const { data: accountData, isError, isPending } = useMypageAccount()
+  console.log(getValues('dischargeYear'), typeof getValues('dischargeYear'))
 
-  // if (isPending || isError) return <div>loading</div>
-
-  const handleClickComplete = () => {
+  const handleClickComplete = (formData: AccountFormType) => {
     // 폼 제출
-    openModal()
-    setIsEditModeFalse()
+    accountMutation(
+      { body: formData },
+      {
+        onSuccess: () => {
+          setSessionStorageItem(SESSION_MILITARY_CHPLAIN, formData.militaryChaplain)
+          setSessionStorageItem(SESSION_NICKNAME, formData.nickname)
+          openModal()
+          setIsEditModeFalse()
+        },
+      },
+    )
   }
-
-  const handleSubmitAccountInfo = () => {}
 
   return (
     <>
-      <SubHeaderWithoutIcon
-        type={currentMode}
-        title="계정 정보"
-        onClickEdit={setIsEditModeTrue}
-        onClickComplete={handleClickComplete}
-      />
-
       <FormProvider {...formMethod}>
-        <form
-          className="flex-column scroll mx-4 mb-2 mt-7 grow gap-7"
-          onSubmit={handleSubmit(handleSubmitAccountInfo)}
-        >
+        <SubHeaderWithoutIcon
+          type={currentMode}
+          title="계정 정보"
+          onClickEdit={setIsEditModeTrue}
+          onClickComplete={handleSubmit(handleClickComplete)}
+        />
+
+        <form className="flex-column scroll mx-4 mb-2 mt-7 grow gap-7">
           <InputGroup>
             <InputGroup.Label section="nickname">닉네임</InputGroup.Label>
             <div className="flex gap-4">

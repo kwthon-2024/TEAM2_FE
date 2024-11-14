@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import chainImage from '@/assets/chain.svg'
 import { BottomNav, ProfileImage } from '@/components/view'
 import { useMypage } from '@/queries'
+import type { IconType } from '@/types'
+import { getSessionStorageItem, SESSION_MILITARY_CHPLAIN } from '@/utils'
 
 const mypageArr = [
   {
@@ -20,6 +22,7 @@ const mypageArr = [
 ] as const
 
 export const Mypage = () => {
+  const iconType = getSessionStorageItem(SESSION_MILITARY_CHPLAIN) as IconType | null
   const { data: mypageData, isPending, isError } = useMypage()
 
   if (isPending || isError) return <div>loading</div>
@@ -31,7 +34,7 @@ export const Mypage = () => {
       <div className="flex-column scroll">
         <div className=" flex-align relative mx-auto mb-[30px] mt-4 w-fit gap-5 rounded-[40px] border-[10px]  border-grey-2 py-[14px] pl-[18px] pr-[30px]">
           <img src={chainImage} className="absolute -left-7 bottom-5" alt="chain" />
-          <ProfileImage iconType="ARMY" size="lg" />
+          <ProfileImage iconType={iconType} size="lg" />
           <div className="flex-column">
             <p className="p-medium font-medium">{nickname}</p>
             <p className="p-xsmall text-blue-7">예비군 {dischargeYear}년차</p>

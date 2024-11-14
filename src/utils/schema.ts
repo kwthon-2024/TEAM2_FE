@@ -47,8 +47,8 @@ export const accountSchema = z
       .min(2, { message: '닉네임은 2글자 이상입니다.' })
       .max(16, { message: '닉네임은 8글자 이하입니다.' }),
     dischargeYear: z
-      .string()
-      .transform((value) => parseInt(value, 10))
+      .union([z.string(), z.number()])
+      .transform((value) => (typeof value === 'string' ? parseInt(value, 10) : value))
       .refine((val) => val >= currentYear - 4 && val <= currentYear, {
         message: `${currentYear - 4}년부터 현재 연도까지만 입력 가능합니다.`,
       }),
