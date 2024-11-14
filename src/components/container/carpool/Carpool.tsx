@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   BottomNav,
+  CheckBoxIcon,
   MainHeader,
   PostAdditionButton,
   PostItem,
-  RecruitmentLabel,
   SearchWithFilter,
 } from '@/components/view'
-import { useCarpoolPage } from '@/queries'
+import { useToggle } from '@/hooks'
+import { useCarpoolPage, useCarpoolRecruitPage } from '@/queries'
 import type { KebabMapType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY } from '@/utils'
 
@@ -34,36 +35,66 @@ export const Carpool = () => {
   const navigate = useNavigate()
   const loginSession = getSessionStorageItem(SESSION_LOGIN_KEY)
 
-  const { data: carpoolData, isPending, isError } = useCarpoolPage()
+  const [isChecked, toggleIsChecked] = useToggle()
+  const {
+    data: carpoolData,
+    isPending: isCarpoolPending,
+    isError: isCarpoolError,
+  } = useCarpoolPage()
+
+  const {
+    data: carpoolRecruitData,
+    isPending: isCarpoolRecruitPending,
+    isError: isCarpoolRecruitError,
+    refetch,
+  } = useCarpoolRecruitPage()
+
+  const textStyle = isChecked ? 'text-blue-5' : 'text-grey-5'
 
   const handleClickAdditionButton = () => {
     navigate('/carpool/create')
   }
 
-  if (isPending || isError) return <div>loading</div>
+  const handleClickRecruit = () => {
+    refetch()
+    toggleIsChecked()
+  }
+
+  const showingData = isChecked ? carpoolRecruitData : carpoolData
 
   return (
     <div className="flex-column h-full">
       <MainHeader />
 
       <SearchWithFilter kebabMap={kebabMap} onClickSearchButton={() => {}} />
-      <RecruitmentLabel onClick={() => {}} />
+
+      <div className="border-b border-b-grey-2">
+        <button
+          type="button"
+          className="flex-align mx-4 ml-auto gap-1 py-3"
+          onClick={handleClickRecruit}
+        >
+          <CheckBoxIcon active={isChecked} />
+          <p className={`p-small ${textStyle}`}>모집 중인 글만 보기</p>
+        </button>
+      </div>
 
       <div className="scroll grow">
-        {carpoolData.result.map(
-          ({ carpoolBoardId, title, createdAt, trainingDate, departPlace, departTime, full }) => (
-            <PostItem
-              key={carpoolBoardId}
-              title={title}
-              createdAt={createdAt}
-              trainingDate={trainingDate}
-              place={departPlace}
-              time={departTime}
-              isFull={full}
-              to={`/carpool/detail/${carpoolBoardId}`}
-            />
-          ),
-        )}
+        {showingData &&
+          showingData.result.map(
+            ({ carpoolBoardId, title, createdAt, trainingDate, departPlace, departTime, full }) => (
+              <PostItem
+                key={carpoolBoardId}
+                title={title}
+                createdAt={createdAt}
+                trainingDate={trainingDate}
+                place={departPlace}
+                time={departTime}
+                isFull={full}
+                to={`/carpool/detail/${carpoolBoardId}`}
+              />
+            ),
+          )}
       </div>
 
       {loginSession && <PostAdditionButton onClick={handleClickAdditionButton} />}

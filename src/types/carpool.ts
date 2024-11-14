@@ -38,7 +38,13 @@ export type CarpoolResponse = {
 export type CarpoolSearchRequest = {
   urls: CarpoolSearchType
 }
-export type CarpoolSearchResponse = CarpoolResponse
+export type CarpoolSearchResponse = {
+  result: CarpoolType[]
+}
+
+export type CarpoolRecruitResponse = {
+  result: CarpoolType[]
+}
 
 export type CarpoolDetailRequest = {
   urls: Pick<CarpoolType, 'carpoolBoardId'>
