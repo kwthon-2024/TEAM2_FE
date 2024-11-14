@@ -11,10 +11,12 @@ export const MyPost = () => {
   const initialTab = (getSessionStorageItem(storageName) || TAB_LIST[0]) as TabType
   const [currentTab, setCurrentTab] = useState<TabType>(initialTab)
 
-  const { data: carpoolPostData } = useMyCarpoolPost()
-  const { data: TeammatePostData } = useMyTeammatePost()
+  const { data: carpoolPostData, refetch: carpoolRefetch } = useMyCarpoolPost()
+  const { data: TeammatePostData, refetch: teammateRefetch } = useMyTeammatePost()
 
   const handleClickTab = (tab: TabType) => {
+    if (tab === TAB_LIST[0]) carpoolRefetch()
+    else teammateRefetch()
     setSessionStorageItem(storageName, tab)
     setCurrentTab(tab)
   }
