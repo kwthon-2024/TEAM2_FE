@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import chainImage from '@/assets/chain.svg'
 import { BottomNav, ProfileImage } from '@/components/view'
+import { useMypage } from '@/queries'
 
 const mypageArr = [
   {
@@ -19,8 +20,11 @@ const mypageArr = [
 ] as const
 
 export const Mypage = () => {
-  const name = '고로케'
-  const year = 3
+  const { data: mypageData, isPending, isError } = useMypage()
+
+  if (isPending || isError) return <div>loading</div>
+
+  const { nickname, dischargeYear } = mypageData
 
   return (
     <div className="flex-column h-full">
@@ -29,8 +33,8 @@ export const Mypage = () => {
           <img src={chainImage} className="absolute -left-7 bottom-5" alt="chain" />
           <ProfileImage iconType="ARMY" size="lg" />
           <div className="flex-column">
-            <p className="p-medium font-medium">{name}</p>
-            <p className="p-xsmall text-blue-7">예비군 {year}년차</p>
+            <p className="p-medium font-medium">{nickname}</p>
+            <p className="p-xsmall text-blue-7">예비군 {dischargeYear}년차</p>
           </div>
         </div>
 
