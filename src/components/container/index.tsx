@@ -9,6 +9,7 @@ export * from './auth/SignupPage'
 // mypage
 export * from './mypage/AccountInfo'
 export * from './mypage/Mypage'
+export * from './mypage/NewPassword'
 
 // carpool
 export * from './carpool/Carpool'

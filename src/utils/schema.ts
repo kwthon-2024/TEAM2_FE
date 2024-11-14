@@ -97,3 +97,24 @@ export const busSchema = z.object({
 export const busReserveInfoSchema = z.object({
   studentId: z.string().length(10, { message: '학번은 10자리 숫자여야 합니다.' }),
 })
+
+export const newPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, { message: '비밀번호는 8글자 이상입니다.' })
+      .max(16, { message: '비밀번호는 16글자 이하입니다.' }),
+    newPassword: z
+      .string()
+      .min(8, { message: '비밀번호는 8글자 이상입니다.' })
+      .max(16, { message: '비밀번호는 16글자 이하입니다.' }),
+    confirm: z
+      .string()
+      .min(8, { message: '비밀번호는 8글자 이상입니다.' })
+      .max(16, { message: '비밀번호는 16글자 이하입니다.' }),
+  })
+  .partial()
+  .refine((data) => data.newPassword === data.confirm, {
+    path: ['confirm'],
+    message: '비밀번호가 일치하지 않습니다.',
+  })

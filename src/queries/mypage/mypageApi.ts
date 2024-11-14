@@ -30,7 +30,7 @@ export const mypageAccountEdit = async ({ body }: MypageAccountEditRequest) => {
 }
 
 export const mypagePassword = async ({ body }: MypagePasswordRequest) => {
-  return await api.post(`/mypage/password`, body)
+  return await api.post<string>(`/mypage/password`, body)
 }
 
 export const mypageExit = async () => {

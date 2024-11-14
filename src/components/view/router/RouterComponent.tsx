@@ -10,6 +10,7 @@ import {
   Home,
   LoginPage,
   Mypage,
+  NewPassword,
   ReserveCreate,
   ReserveInfo,
   SignupCompletePage,
@@ -50,6 +51,7 @@ export const RouterComponent = () => {
         {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/account-info" element={<AccountInfo />} />
+        <Route path="/mypage/password" element={<NewPassword />} />
 
         {/* bus */}
         <Route path="/bus-reserve" element={<BusReserve />} />

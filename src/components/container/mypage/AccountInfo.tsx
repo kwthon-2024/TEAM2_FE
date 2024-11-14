@@ -19,7 +19,6 @@ export const AccountInfo = () => {
   console.log(getValues('dischargeYear'), typeof getValues('dischargeYear'))
 
   const handleClickComplete = (formData: AccountFormType) => {
-    // 폼 제출
     accountMutation(
       { body: formData },
       {

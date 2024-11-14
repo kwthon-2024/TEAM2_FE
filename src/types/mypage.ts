@@ -30,6 +30,7 @@ type TeammateBoardType = {
 }
 
 export type AccountFormType = UserType
+export type NewPasswordFormType = PasswordType & { confirm: string }
 
 export type MypageInfoResponse = Pick<UserType, 'nickname' | 'dischargeYear'>
 

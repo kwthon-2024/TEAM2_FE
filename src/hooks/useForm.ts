@@ -10,6 +10,7 @@ import type {
   CarpoolEditPageRequest,
   CarpoolFormType,
   LoginFormType,
+  NewPasswordFormType,
   SignupFormType,
   TeammateEditPageRequest,
   TeammateFormType,
@@ -20,6 +21,7 @@ import {
   busSchema,
   carpoolSchema,
   loginSchema,
+  newPasswordSchema,
   signupSchema,
   teammateSchema,
 } from '@/utils'
@@ -135,6 +137,16 @@ export const useBusReserveInfoForm = () => {
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     resolver: zodResolver(busReserveInfoSchema),
+  })
+
+  return formMethod
+}
+
+export const useNewPasswordForm = () => {
+  const formMethod = useForm<NewPasswordFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(newPasswordSchema),
   })
 
   return formMethod

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { mypageAccount, mypageAccountEdit, mypageInfo } from './mypageApi'
+import { mypageAccount, mypageAccountEdit, mypageInfo, mypagePassword } from './mypageApi'
 
 const queryKeys = {
   all: ['mypage'] as const,
@@ -27,5 +27,11 @@ export const useMypageAccountEdit = () => {
   return useMutation({
     mutationFn: mypageAccountEdit,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.all }),
+  })
+}
+
+export const useMypageNewPassword = () => {
+  return useMutation({
+    mutationFn: mypagePassword,
   })
 }
