@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import {
   AccountInfo,
+  BusReserve,
   Carpool,
   CarpoolCreate,
   CarpoolDetail,
@@ -9,6 +10,8 @@ import {
   Home,
   LoginPage,
   Mypage,
+  ReserveCreate,
+  ReserveInfo,
   SignupCompletePage,
   SignupPage,
   Teammate,
@@ -47,6 +50,11 @@ export const RouterComponent = () => {
         {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/account-info" element={<AccountInfo />} />
+
+        {/* bus */}
+        <Route path="/bus-reserve" element={<BusReserve />} />
+        <Route path="/bus-reserve/create" element={<ReserveCreate />} />
+        <Route path="/bus-reserve/info" element={<ReserveInfo />} />
       </Route>
     </Routes>
   )

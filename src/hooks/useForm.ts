@@ -5,6 +5,8 @@ import dayjs from 'dayjs'
 import { carpoolEditPage, mypageAccount, teammateEditPage } from '@/queries'
 import type {
   AccountFormType,
+  BusFormType,
+  BusInfoFormType,
   CarpoolEditPageRequest,
   CarpoolFormType,
   LoginFormType,
@@ -12,7 +14,15 @@ import type {
   TeammateEditPageRequest,
   TeammateFormType,
 } from '@/types'
-import { accountSchema, carpoolSchema, loginSchema, signupSchema, teammateSchema } from '@/utils'
+import {
+  accountSchema,
+  busReserveInfoSchema,
+  busSchema,
+  carpoolSchema,
+  loginSchema,
+  signupSchema,
+  teammateSchema,
+} from '@/utils'
 
 export const useLoginForm = () => {
   const formMethod = useForm<LoginFormType>({
@@ -105,6 +115,26 @@ export const useTeammateEditForm = (request: TeammateEditPageRequest) => {
     reValidateMode: 'onSubmit',
     resolver: zodResolver(teammateSchema),
     defaultValues: getDefaultValues,
+  })
+
+  return formMethod
+}
+
+export const useBusForm = () => {
+  const formMethod = useForm<BusFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(busSchema),
+  })
+
+  return formMethod
+}
+
+export const useBusReserveInfoForm = () => {
+  const formMethod = useForm<BusInfoFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(busReserveInfoSchema),
   })
 
   return formMethod
