@@ -11,6 +11,10 @@ import {
   Mypage,
   SignupCompletePage,
   SignupPage,
+  Teammate,
+  TeammateCreate,
+  TeammateDetail,
+  TeammateEdit,
 } from '@/components/container'
 
 import { LoginPrivateRoute, PrivateRoute } from './PrivateRouter'
@@ -33,6 +37,12 @@ export const RouterComponent = () => {
         <Route path="/carpool/detail/:id" element={<CarpoolDetail />} />
         <Route path="/carpool/create" element={<CarpoolCreate />} />
         <Route path="/carpool/edit/:id" element={<CarpoolEdit />} />
+
+        {/* teammate */}
+        <Route path="/teammate" element={<Teammate />} />
+        <Route path="/teammate/detail/:id" element={<TeammateDetail />} />
+        <Route path="/teammate/create" element={<TeammateCreate />} />
+        <Route path="/teammate/edit/:id" element={<TeammateEdit />} />
 
         {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />

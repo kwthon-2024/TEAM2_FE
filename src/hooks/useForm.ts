@@ -2,15 +2,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 
-import { carpoolEditPage, mypageAccount } from '@/queries'
+import { carpoolEditPage, mypageAccount, teammateEditPage } from '@/queries'
 import type {
   AccountFormType,
   CarpoolEditPageRequest,
   CarpoolFormType,
   LoginFormType,
   SignupFormType,
+  TeammateEditPageRequest,
+  TeammateFormType,
 } from '@/types'
-import { accountSchema, carpoolSchema, loginSchema, signupSchema } from '@/utils'
+import { accountSchema, carpoolSchema, loginSchema, signupSchema, teammateSchema } from '@/utils'
 
 export const useLoginForm = () => {
   const formMethod = useForm<LoginFormType>({
@@ -72,6 +74,36 @@ export const useCarpoolEditForm = (request: CarpoolEditPageRequest) => {
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     resolver: zodResolver(carpoolSchema),
+    defaultValues: getDefaultValues,
+  })
+
+  return formMethod
+}
+
+export const useTeammateCreateForm = () => {
+  const formMethod = useForm<TeammateFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(teammateSchema),
+  })
+
+  return formMethod
+}
+
+export const useTeammateEditForm = (request: TeammateEditPageRequest) => {
+  const getDefaultValues = async () => {
+    const { meetingTime, trainingDate, ...rest } = await teammateEditPage(request)
+    const hour = parseInt(meetingTime.split(':')[0], 10)
+    const minute = parseInt(meetingTime.split(':')[1], 10)
+    const date = dayjs(trainingDate).format('YYYYMMDD')
+
+    return { hour, minute, trainingDate: date, ...rest }
+  }
+
+  const formMethod = useForm<TeammateFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(teammateSchema),
     defaultValues: getDefaultValues,
   })
 

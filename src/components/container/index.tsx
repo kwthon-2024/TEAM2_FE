@@ -15,3 +15,9 @@ export * from './carpool/Carpool'
 export * from './carpool/CarpoolCreate'
 export * from './carpool/CarpoolDetail'
 export * from './carpool/CarpoolEdit'
+
+// Teammate
+export * from './teammate/Teammate'
+export * from './teammate/TeammateCreate'
+export * from './teammate/TeammateDetail'
+export * from './teammate/TeammateEdit'
