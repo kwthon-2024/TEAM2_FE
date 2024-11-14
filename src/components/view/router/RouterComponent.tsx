@@ -1,6 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
 
-import { Home, LoginPage, Mypage, SignupCompletePage, SignupPage } from '@/components/container'
+import {
+  AccountInfo,
+  Home,
+  LoginPage,
+  Mypage,
+  SignupCompletePage,
+  SignupPage,
+} from '@/components/container'
 
 import { LoginPrivateRoute, PrivateRoute } from './PrivateRouter'
 
@@ -19,6 +26,7 @@ export const RouterComponent = () => {
 
         {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage/account-info" element={<AccountInfo />} />
       </Route>
     </Routes>
   )

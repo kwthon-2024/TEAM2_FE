@@ -29,6 +29,8 @@ type TeammateBoardType = {
   isFull: boolean
 }
 
+export type AccountFormType = UserType
+
 export type MypageInfoResponse = Pick<UserType, 'nickname' | 'dischargeYear'>
 
 export type MypageAccountResponse = UserType
