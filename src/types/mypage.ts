@@ -26,7 +26,7 @@ type TeammateBoardType = {
   trainingDate: string
   meetingPlace: string
   meetingTime: string
-  isFull: boolean
+  full: boolean
 }
 
 export type AccountFormType = UserType
@@ -45,13 +45,9 @@ export type MypagePasswordRequest = {
 }
 
 export type MypageCarpoolResponse = {
-  body: {
-    result: CarpoolBoardType[]
-  }
+  result: CarpoolBoardType[]
 }
 
 export type MypageTeammateResponse = {
-  body: {
-    result: TeammateBoardType[]
-  }
+  result: TeammateBoardType[]
 }
