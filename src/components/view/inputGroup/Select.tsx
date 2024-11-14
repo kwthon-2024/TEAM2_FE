@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { MILITARY_BRANCHES } from '@/utils'
@@ -9,8 +9,19 @@ type SortOfArmyProps = {
 }
 
 export const SortOfArmy = ({ section, disabled = false }: SortOfArmyProps) => {
-  const [selectedSort, setSelectedSort] = useState('')
-  const { setValue } = useFormContext()
+  const { watch, setValue } = useFormContext()
+  const [selectedSort, setSelectedSort] = useState<string | null>(null)
+
+  const sectionValue = watch(section)
+
+  useEffect(() => {
+    if (sectionValue && selectedSort === null) {
+      const initialSort = Object.entries(MILITARY_BRANCHES).find(
+        ([, value]) => value === sectionValue,
+      )?.[0]
+      setSelectedSort(initialSort || null)
+    }
+  }, [sectionValue, selectedSort])
 
   const handleClickButton = (sort: keyof typeof MILITARY_BRANCHES) => {
     setSelectedSort(sort)
