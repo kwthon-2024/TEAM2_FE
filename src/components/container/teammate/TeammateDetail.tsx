@@ -1,3 +1,5 @@
+import { useNavigate, useParams } from 'react-router-dom'
+
 import {
   Kebab,
   ModalWithTwoButton,
@@ -7,7 +9,9 @@ import {
   SubHeaderWithoutIcon,
 } from '@/components/view'
 import { useBoolean } from '@/hooks'
-import { getSessionStorageItem, SESSION_LOGIN_KEY } from '@/utils'
+import { useTeammateCheckFull, useTeammateDelete, useTeammateDetailPage } from '@/queries'
+import type { IconType } from '@/types'
+import { getSessionStorageItem, SESSION_LOGIN_KEY, SESSION_NICKNAME } from '@/utils'
 
 type HeaderProps = {
   isMyPost: boolean
@@ -29,18 +33,41 @@ const InfoField = ({ label, content }: InfoFieldProps) => {
 }
 
 const Header = ({ isMyPost, isFull }: HeaderProps) => {
+  const { id } = useParams()
+  const navigate = useNavigate()
   const loginSession = getSessionStorageItem(SESSION_LOGIN_KEY)
 
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
   const [modalState, openModal, closeModal] = useBoolean(false)
 
-  const kebabMap = [
-    { label: '수정하기', onClick: () => console.log('수정하기') },
-    { label: '모집 완료로 변경', onClick: () => console.log('모집 완료로 변경') },
+  const { mutate: deleteMutation } = useTeammateDelete()
+  const { mutate: checkFullMutation } = useTeammateCheckFull()
+
+  const handleClickCheckFull = () => {
+    checkFullMutation({ body: { full: !isFull }, urls: { teamBoardId: parseInt(id as string) } })
+  }
+
+  const handleClickModalDelete = () => {
+    deleteMutation(
+      { urls: { teamBoardId: parseInt(id as string) } },
+      {
+        onSuccess: () => {
+          navigate('/teammate', { replace: true })
+        },
+      },
+    )
+  }
+
+  const myKebabMap = [
+    { label: '수정하기', onClick: () => navigate(`/teammate/edit/${id}`) },
+    {
+      label: isFull ? '모집 중으로 변경' : '모집 완료로 변경',
+      onClick: handleClickCheckFull,
+    },
     { label: '삭제하기', onClick: openModal },
   ]
 
-  const myKebabMap = [{ label: '차단하기', onClick: () => console.log('차단하기') }]
+  const kebabMap = [{ label: '차단하기', onClick: () => console.log('차단하기') }]
 
   return (
     <>
@@ -54,7 +81,7 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
         <Kebab
           list={isMyPost ? myKebabMap : kebabMap}
           location="right-4 top-12"
-          redIndex={isMyPost ? 0 : 2}
+          redIndex={isMyPost ? 2 : 0}
         />
       )}
 
@@ -65,21 +92,45 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
         cancleButtonLabel="취소"
         completeButtonLabel="삭제"
         cancleOnClick={closeModal}
-        completeOnClick={() => {}}
+        completeOnClick={handleClickModalDelete}
       />
     </>
   )
 }
 
 export const TeammateDetail = () => {
-  const full = false // 모집 마감 여부
-  const isMyPost = false // 해당 게시물이 내가 작성한 게시물인지
+  const { id } = useParams()
+  const {
+    data: detailData,
+    isPending,
+    isError,
+  } = useTeammateDetailPage({ urls: { teamBoardId: parseInt(id as string) } })
+
+  if (isPending || isError) return <div>loading</div>
+
+  const {
+    author,
+    createdAt,
+    full,
+    title,
+    meetingTime,
+    personnel,
+    trainingDate,
+    meetingPlace,
+    content,
+  } = detailData
+  const isMyPost = author.nickname === getSessionStorageItem(SESSION_NICKNAME)
 
   return (
     <>
       <div className="flex-column h-full">
         <Header isMyPost={isMyPost} isFull={full} />
-        <PostProfile name="고로케" iconType="ARMY" year="4" subText="2024/04/12 12:33" />
+        <PostProfile
+          name={author.nickname}
+          iconType={author.militaryChaplain as IconType}
+          year={author.dischargeYear.toString()}
+          subText={createdAt}
+        />
 
         <div className="scroll mt-6 grow">
           <div className="flex-column px-4">
@@ -88,13 +139,11 @@ export const TeammateDetail = () => {
               <InfoField label="훈련 날짜" content={trainingDate} />
 
               <div className="flex-between-align">
-                <InfoField label="출발 장소" content={departPlace} />
-                <InfoField label="시간" content={departTime} />
+                <InfoField label="출발 장소" content={meetingPlace} />
+                <InfoField label="시간" content={meetingTime} />
               </div>
 
-              {/* <div className="flex-between-align"> */}
               <InfoField label="모집 인원" content={`${personnel}명`} />
-              {/* </div> */}
 
               <InfoField label="메모" content={content} />
             </div>
@@ -102,7 +151,8 @@ export const TeammateDetail = () => {
         </div>
 
         <PostBottom
-          disabled={isMyPost}
+          isMyPost={isMyPost}
+          disabled={full}
           onClickBookmark={() => {}}
           onClickChattingButton={() => {}}
         />

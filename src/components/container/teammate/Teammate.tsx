@@ -54,7 +54,7 @@ export const Teammate = () => {
               place={meetingPlace}
               time={meetingTime}
               isFull={full}
-              to={`/carpool/detail/${teamBoardId}`}
+              to={`/teammate/detail/${teamBoardId}`}
             />
           ),
         )}

@@ -3,6 +3,7 @@ import type {
   TeammateCreateResponse,
   TeammateDeleteRequest,
   TeammateDetailRequest,
+  TeammateDetailResponse,
   TeammateEditPageRequest,
   TeammateEditRequest,
   TeammateEditResponse,
@@ -24,7 +25,7 @@ export const teammateSearch = async ({ urls }: TeammateSearchRequest) => {
 }
 
 export const teammateDetail = async ({ urls }: TeammateDetailRequest) => {
-  return await api.get<TeammateResponse>(`/view/team/${urls.teamBoardId}`)
+  return await api.get<TeammateDetailResponse>(`/view/team/${urls.teamBoardId}`)
 }
 
 export const teammateCreate = async ({ body }: TeammateCreateRequest) => {
