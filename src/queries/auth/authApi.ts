@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import type {
   LoginRequest,
   LoginResponse,
@@ -6,10 +8,10 @@ import type {
   ValidateNicknameRequest,
 } from '@/types'
 
-import { instanceWithoutAuth } from '../service'
+const BASE_URL = import.meta.env.VITE_PUBLIC_SERVER_URL
 
 export const login = async ({ body }: LoginRequest) => {
-  return await instanceWithoutAuth.post<LoginResponse>(`/login`, body, {
+  return await axios.post<LoginResponse>(`${BASE_URL}/login`, body, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -17,13 +19,13 @@ export const login = async ({ body }: LoginRequest) => {
 }
 
 export const signup = async ({ body }: SignupRequest) => {
-  return await instanceWithoutAuth.post(`/signup`, body)
+  return await axios.post(`${BASE_URL}/signup`, body)
 }
 
 export const validateId = async ({ body }: ValidateIdRequest) => {
-  return await instanceWithoutAuth.post(`/validate-id`, body)
+  return await axios.post(`${BASE_URL}/validate-id`, body)
 }
 
 export const validateNickname = async ({ body }: ValidateNicknameRequest) => {
-  return await instanceWithoutAuth.post(`/validate-nickname`, body)
+  return await axios.post(`${BASE_URL}/validate-nickname`, body)
 }

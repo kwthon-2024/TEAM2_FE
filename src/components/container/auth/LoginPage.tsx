@@ -4,8 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { Button, InputGroup } from '@/components/view'
 import { useLoginForm } from '@/hooks'
-import { useLogin } from '@/queries'
-import { instance } from '@/queries/service'
+import { api, useLogin } from '@/queries'
 import type { LoginFormType } from '@/types'
 import {
   SESSION_LOGIN_KEY,
@@ -27,8 +26,8 @@ export const LoginPage = () => {
     loginMutation(
       { body: { userId: formData.userId, password: formData.password } },
       {
-        onSuccess: ({ headers, data: { militaryChaplain, nickname } }) => {
-          instance.defaults.headers.common['Authorization'] = headers.authorization
+        onSuccess: ({ headers, data: { nickname, militaryChaplain } }) => {
+          api.setAccessToken(headers.authorization)
           setIsLoginFailed(false)
           setSessionStorageItem(SESSION_LOGIN_KEY, 'true')
           setSessionStorageItem(SESSION_NICKNAME, nickname)
