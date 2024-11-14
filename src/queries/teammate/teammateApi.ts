@@ -14,35 +14,35 @@ import type {
 import { api } from '..'
 
 export const teammatePage = async () => {
-  return await api.get<TeammateResponse>(`/view/teammate`)
+  return await api.get<TeammateResponse>(`/view/team`)
 }
 
 export const teammateSearch = async ({ urls }: TeammateSearchRequest) => {
   return await api.get<TeammateResponse>(
-    `/view/teammate?category=${urls.category}&keyword=${urls.keyword}`,
+    `/view/team?category=${urls.category}&keyword=${urls.keyword}`,
   )
 }
 
 export const teammateDetail = async ({ urls }: TeammateDetailRequest) => {
-  return await api.get<TeammateResponse>(`/view/teammate/${urls.teamBoardId}`)
+  return await api.get<TeammateResponse>(`/view/team/${urls.teamBoardId}`)
 }
 
 export const teammateCreate = async ({ body }: TeammateCreateRequest) => {
-  return await api.post<TeammateCreateResponse>(`/teammate`, body)
+  return await api.post<TeammateCreateResponse>(`/team`, body)
 }
 
 export const teammateEditPage = async ({ urls }: TeammateEditPageRequest) => {
-  return await api.get<TeammateEditResponse>(`/teammate/edit/${urls.teamBoardId}`)
+  return await api.get<TeammateEditResponse>(`/team/edit/${urls.teamBoardId}`)
 }
 
 export const teammateEdit = async ({ body, urls }: TeammateEditRequest) => {
-  return await api.put(`/teammate/${urls.teamBoardId}`, body)
+  return await api.put(`/team/${urls.teamBoardId}`, body)
 }
 
 export const teammateDelete = async ({ urls }: TeammateDeleteRequest) => {
-  return await api.delete(`/teammate/${urls.teamBoardId}`)
+  return await api.delete(`/team/${urls.teamBoardId}`)
 }
 
 export const teammateCheckFull = async ({ body, urls }: TeammateIsFullRequest) => {
-  return await api.put(`/teammate/check/${urls.teamBoardId}`, body)
+  return await api.put(`/team/check/${urls.teamBoardId}`, body)
 }
