@@ -1,21 +1,53 @@
-import { FormProvider, useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { FormProvider } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 import { InputGroup, SubHeaderWithoutIcon } from '@/components/view'
+import { useTeammateCreateForm } from '@/hooks'
+import { useTeammateCreate } from '@/queries'
+import type { TeammateFormType } from '@/types'
 
 export const TeammateCreate = () => {
-  const formMethod = useForm()
-  const { handleSubmit } = formMethod
-  const handleSubmitForm = () => {}
+  const navigate = useNavigate()
+  const formMethod = useTeammateCreateForm()
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = formMethod
+  const { mutate: teammateMutation } = useTeammateCreate()
+
+  const handleSubmitForm = (formData: TeammateFormType) => {
+    const { hour, minute, trainingDate, ...rest } = formData
+    const sendingFormData = {
+      trainingDate: dayjs(trainingDate, 'YYYYMMDD').format('YYYY-MM-DD'),
+      meetingTime: `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`,
+      ...rest,
+    }
+
+    teammateMutation(
+      { body: sendingFormData },
+      {
+        onSuccess: ({ teamBoardId }) =>
+          navigate(`/teammate/detail/${teamBoardId}`, { replace: true }),
+      },
+    )
+  }
+
+  useEffect(() => {
+    console.log(errors)
+  }, [errors])
 
   return (
     <div className="flex-column h-svh">
       <FormProvider {...formMethod}>
-        <SubHeaderWithoutIcon type="complete" title="팀원 모집 등록" onClickComplete={() => {}} />
+        <SubHeaderWithoutIcon
+          type="complete"
+          title="팀원 모집 등록"
+          onClickComplete={handleSubmit(handleSubmitForm)}
+        />
 
-        <form
-          className="flex-column scroll mb-4 mt-5 gap-5 px-4"
-          onSubmit={handleSubmit(handleSubmitForm)}
-        >
+        <form className="flex-column scroll mb-4 mt-5 gap-5 px-4">
           <InputGroup>
             <InputGroup.Label section="title">제목</InputGroup.Label>
             <InputGroup.Input section="title" placeholder="제목을 입력해주세요." />
@@ -27,8 +59,8 @@ export const TeammateCreate = () => {
           </InputGroup>
 
           <InputGroup>
-            <InputGroup.Label section="departPlace">출발 장소</InputGroup.Label>
-            <InputGroup.Input section="departPlace" placeholder="출발 장소를 입력해주세요." />
+            <InputGroup.Label section="meetingPlace">만날 장소</InputGroup.Label>
+            <InputGroup.Input section="meetingPlace" placeholder="출발 장소를 입력해주세요." />
           </InputGroup>
 
           <div className="grid grid-cols-2 gap-5">

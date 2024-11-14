@@ -9,8 +9,9 @@ import type {
   CarpoolFormType,
   LoginFormType,
   SignupFormType,
+  TeammateFormType,
 } from '@/types'
-import { accountSchema, carpoolSchema, loginSchema, signupSchema } from '@/utils'
+import { accountSchema, carpoolSchema, loginSchema, signupSchema, teammateSchema } from '@/utils'
 
 export const useLoginForm = () => {
   const formMethod = useForm<LoginFormType>({
@@ -73,6 +74,16 @@ export const useCarpoolEditForm = (request: CarpoolEditPageRequest) => {
     reValidateMode: 'onSubmit',
     resolver: zodResolver(carpoolSchema),
     defaultValues: getDefaultValues,
+  })
+
+  return formMethod
+}
+
+export const useTeammateCreateForm = () => {
+  const formMethod = useForm<TeammateFormType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    resolver: zodResolver(teammateSchema),
   })
 
   return formMethod
