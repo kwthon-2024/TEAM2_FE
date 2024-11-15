@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { BottomNav, ChattingProfile, MainHeader } from '@/components/view'
-import { useCarpoolChattingRoomList } from '@/queries'
+import { useCarpoolChattingRoomList, useTeammateChattingRoomList } from '@/queries'
 import { getSessionStorageItem, setSessionStorageItem, TAB_LIST } from '@/utils'
 
 type TabType = (typeof TAB_LIST)[number]
@@ -13,11 +13,11 @@ export const Chatting = () => {
   const [currentTab, setCurrentTab] = useState<TabType>(initialTab)
 
   const { data: carpoolRoomList, refetch: carpoolRoomRefetch } = useCarpoolChattingRoomList()
-  // const { data: TeammateRoomList, refetch: teammateRoomRefetch } = useMyTeammatePost()
+  const { data: teammateRoomList, refetch: teammateRoomRefetch } = useTeammateChattingRoomList()
 
   const handleClickTab = (tab: TabType) => {
     if (tab === TAB_LIST[0]) carpoolRoomRefetch()
-    // else teammateRefetch()
+    else teammateRoomRefetch()
     setSessionStorageItem(storageName, tab)
     setCurrentTab(tab)
   }
@@ -27,8 +27,6 @@ export const Chatting = () => {
   return (
     <div className="flex-column h-full">
       <MainHeader />
-
-      {/* <Search placeholder="닉네임을 검색해주세요." onClickSearchButton={() => {}} /> */}
 
       <div className="p-medium flex px-4 py-3 font-medium">
         {TAB_LIST.map((tab) => {
@@ -64,6 +62,21 @@ export const Chatting = () => {
                 <ChattingProfile
                   name={opponentNickname}
                   title={carpoolBoardTitle}
+                  message={lastMessage}
+                  time={lastMessageDaysAgo.toString()}
+                  iconType="NAVY"
+                />
+              </Link>
+            ),
+          )}
+        {currentTab === TAB_LIST[1] &&
+          teammateRoomList &&
+          teammateRoomList.result.map(
+            ({ chatRoomId, opponentNickname, teamBoardTitle, lastMessage, lastMessageDaysAgo }) => (
+              <Link to={`/chatting/chatting-room/${chatRoomId}`} key={chatRoomId}>
+                <ChattingProfile
+                  name={opponentNickname}
+                  title={teamBoardTitle}
                   message={lastMessage}
                   time={lastMessageDaysAgo.toString()}
                   iconType="NAVY"
