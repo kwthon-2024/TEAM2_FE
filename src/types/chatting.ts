@@ -39,3 +39,9 @@ export type TeammateChattingIdResponse = Omit<TeammateChattingRoomType, 'teamBoa
 export type TeammateExitChattingRoomRequest = {
   urls: Pick<TeammateChattingRoomType, 'chatRoomId'>
 }
+
+export type SendingMessageRequset = {
+  chatRoomId: string
+  content: string
+  senderId: string
+}

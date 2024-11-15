@@ -1,72 +1,30 @@
-import { Bubble } from '@/components/domain'
-import {
-  AdditionIcon,
-  Kebab,
-  PostProfile,
-  ProfileImage,
-  SendingIcon,
-  SubHeaderWithIcon,
-} from '@/components/view'
-import { useBoolean } from '@/hooks'
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-const message = [
-  { isMyMessage: false, message: '안녕하세요!', time: '오후 12:00' },
-  { isMyMessage: false, message: '팀원 모집 글 보고 연락드립니다.', time: '오후 12:00' },
-  { isMyMessage: false, message: '빠른 퇴소를 목표로 함께 하고싶습니다.', time: '오후 12:00' },
-  {
-    isMyMessage: true,
-    message: '좋습니다. 8시 50분까지 물품 보관소 1번 앞에서 뵙겠습니다.',
-    time: '오후 12:00',
-  },
-  { isMyMessage: false, message: '안녕하세요!', time: '오후 12:00' },
-  { isMyMessage: false, message: '팀원 모집 글 보고 연락드립니다.', time: '오후 12:00' },
-  { isMyMessage: false, message: '빠른 퇴소를 목표로 함께 하고싶습니다.', time: '오후 12:00' },
-  {
-    isMyMessage: true,
-    message: '좋습니다. 8시 50분까지 물품 보관소 1번 앞에서 뵙겠습니다.',
-    time: '오후 12:00',
-  },
-  { isMyMessage: false, message: '안녕하세요!', time: '오후 12:00' },
-  { isMyMessage: false, message: '팀원 모집 글 보고 연락드립니다.', time: '오후 12:00' },
-  { isMyMessage: false, message: '빠른 퇴소를 목표로 함께 하고싶습니다.', time: '오후 12:00' },
-  {
-    isMyMessage: true,
-    message: '좋습니다. 8시 50분까지 물품 보관소 1번 앞에서 뵙겠습니다.',
-    time: '오후 12:00',
-  },
-  { isMyMessage: false, message: '안녕하세요!', time: '오후 12:00' },
-  { isMyMessage: false, message: '팀원 모집 글 보고 연락드립니다.', time: '오후 12:00' },
-  { isMyMessage: false, message: '빠른 퇴소를 목표로 함께 하고싶습니다.', time: '오후 12:00' },
-  {
-    isMyMessage: true,
-    message: '좋습니다. 8시 50분까지 물품 보관소 1번 앞에서 뵙겠습니다.',
-    time: '오후 12:00',
-  },
-  { isMyMessage: false, message: '안녕하세요!', time: '오후 12:00' },
-  { isMyMessage: false, message: '팀원 모집 글 보고 연락드립니다.', time: '오후 12:00' },
-  { isMyMessage: false, message: '빠른 퇴소를 목표로 함께 하고싶습니다.', time: '오후 12:00' },
-  {
-    isMyMessage: true,
-    message: '좋습니다. 8시 50분까지 물품 보관소 1번 앞에서 뵙겠습니다.',
-    time: '오후 12:00',
-  },
-  { isMyMessage: false, message: '안녕하세요!', time: '오후 12:00' },
-  { isMyMessage: false, message: '팀원 모집 글 보고 연락드립니다.', time: '오후 12:00' },
-  { isMyMessage: false, message: '빠른 퇴소를 목표로 함께 하고싶습니다.', time: '오후 12:00' },
-  {
-    isMyMessage: true,
-    message: '좋습니다. 8시 50분까지 물품 보관소 1번 앞에서 뵙겠습니다.',
-    time: '오후 12:00',
-  },
-]
+import { AdditionIcon, Kebab, PostProfile, SendingIcon, SubHeaderWithIcon } from '@/components/view'
+import { useBoolean, useWebSocket } from '@/hooks'
 
 export const ChattingRoom = () => {
+  const { id: roomId } = useParams()
+  const { client, sendMessage } = useWebSocket(roomId, 'carpool')
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
+  const [message, setMessage] = useState<string>('')
 
   const kebabMap = [
     { label: '채팅방 나가기', onClick: () => console.log('채팅방 나가기') },
     { label: '차단하기', onClick: () => console.log('차단하기') },
   ]
+
+  const handleClcikSendButton = () => {
+    console.log('clicked')
+    if (client.current && client.current.connected) {
+      sendMessage(message)
+      // setInputValue('');
+    } else {
+      console.log('WebSocket is not connected')
+    }
+  }
 
   return (
     <div className="flex-column h-full">
@@ -76,7 +34,7 @@ export const ChattingRoom = () => {
       {kebabState && <Kebab list={kebabMap} location="right-4 top-12" redIndex={1} />}
 
       <main className="scroll flex-column mx-4 grow gap-4 py-4">
-        {message.map(({ isMyMessage, message, time }, index) => {
+        {/* {message.map(({ isMyMessage, message, time }, index) => {
           const layoutStyle = isMyMessage ? 'flex flex-row-reverse items-center' : 'flex-align'
           return (
             <div key={index} className={`${layoutStyle} gap-3`}>
@@ -85,7 +43,7 @@ export const ChattingRoom = () => {
               <span className="p-xsmall shrink-0 self-end text-grey-5">{time}</span>
             </div>
           )
-        })}
+        })} */}
       </main>
 
       <div className="flex-align gap-2 bg-white px-4 pb-8 pt-3">
@@ -94,10 +52,11 @@ export const ChattingRoom = () => {
           <input
             type="text"
             placeholder="메세지를 입력해주세요."
-            className="grow text-grey-7 placeholder:text-grey-4 focus:outline-none"
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
+            className="grow bg-transparent text-grey-7 placeholder:text-grey-4 focus:outline-none"
           />
 
-          <button className="shrink-0 ">
+          <button className="shrink-0" onClick={handleClcikSendButton}>
             <SendingIcon />
           </button>
         </div>
