@@ -8,6 +8,7 @@ import {
   CarpoolCreate,
   CarpoolDetail,
   CarpoolEdit,
+  CarpoolSearch,
   Chatting,
   ChattingRoom,
   Home,
@@ -53,6 +54,7 @@ export const RouterComponent = () => {
       <Route element={<PrivateRoute />}>
         <Route path="/carpool/create" element={<CarpoolCreate />} />
         <Route path="/carpool/edit/:id" element={<CarpoolEdit />} />
+        <Route path="/carpool/search" element={<CarpoolSearch />} />
 
         <Route path="/teammate/create" element={<TeammateCreate />} />
         <Route path="/teammate/edit/:id" element={<TeammateEdit />} />

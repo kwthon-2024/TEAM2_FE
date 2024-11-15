@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {
   BottomNav,
@@ -10,26 +10,7 @@ import {
 } from '@/components/view'
 import { useToggle } from '@/hooks'
 import { useCarpoolPage, useCarpoolRecruitPage } from '@/queries'
-import type { KebabMapType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY } from '@/utils'
-
-const kebabMap: KebabMapType = [
-  {
-    label: '제목',
-    type: 'text',
-    placeholder: '제목을 입력해주세요.',
-  },
-  {
-    label: '훈련 날짜',
-    type: 'number',
-    placeholder: 'ex) 20240521',
-  },
-  {
-    label: '출발 장소',
-    type: 'text',
-    placeholder: '출발 장소를 입력해주세요.',
-  },
-]
 
 export const Carpool = () => {
   const navigate = useNavigate()
@@ -66,7 +47,9 @@ export const Carpool = () => {
     <div className="flex-column h-full">
       <MainHeader />
 
-      <SearchWithFilter kebabMap={kebabMap} onClickSearchButton={() => {}} />
+      <Link to={'/carpool/search'}>
+        <SearchWithFilter kebabMap={[]} onClickSearchButton={() => {}} />
+      </Link>
 
       <div className="border-b border-b-grey-2">
         <button
