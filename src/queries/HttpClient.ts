@@ -69,7 +69,7 @@ export class HttpClient {
     const response = error.response as AxiosResponse
 
     if (isAxiosError(error)) {
-      if (response?.status === 403) {
+      if (response?.status === 401) {
         try {
           const reIssueResponse = (await reIssue()) as AxiosResponse
           console.log(reIssueResponse)

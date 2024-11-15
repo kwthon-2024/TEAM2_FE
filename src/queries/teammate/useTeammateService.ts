@@ -14,7 +14,7 @@ import {
 } from './teammateApi'
 
 const queryKeys = {
-  all: ['carpool'] as const,
+  all: ['teammate'] as const,
   search: (urls: TeammateSearchRequest['urls']) =>
     [...queryKeys.all, ...Object.values(urls)] as const,
   detail: (urls: TeammateDetailRequest['urls']) =>
