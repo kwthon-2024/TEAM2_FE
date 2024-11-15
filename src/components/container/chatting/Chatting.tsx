@@ -1,25 +1,76 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { BottomNav, ChattingProfile, MainHeader, Search } from '@/components/view'
+import { BottomNav, ChattingProfile, MainHeader } from '@/components/view'
+import { useCarpoolChattingRoomList } from '@/queries'
+import { getSessionStorageItem, setSessionStorageItem, TAB_LIST } from '@/utils'
+
+type TabType = (typeof TAB_LIST)[number]
 
 export const Chatting = () => {
+  const storageName = `current-chatting-tab`
+  const initialTab = (getSessionStorageItem(storageName) || TAB_LIST[0]) as TabType
+  const [currentTab, setCurrentTab] = useState<TabType>(initialTab)
+
+  const { data: carpoolRoomList, refetch: carpoolRoomRefetch } = useCarpoolChattingRoomList()
+  // const { data: TeammateRoomList, refetch: teammateRoomRefetch } = useMyTeammatePost()
+
+  const handleClickTab = (tab: TabType) => {
+    if (tab === TAB_LIST[0]) carpoolRoomRefetch()
+    // else teammateRefetch()
+    setSessionStorageItem(storageName, tab)
+    setCurrentTab(tab)
+  }
+
+  console.log(carpoolRoomList)
+
   return (
     <div className="flex-column h-full">
       <MainHeader />
 
-      <Search placeholder="닉네임을 검색해주세요." onClickSearchButton={() => {}} />
+      {/* <Search placeholder="닉네임을 검색해주세요." onClickSearchButton={() => {}} /> */}
+
+      <div className="p-medium flex px-4 py-3 font-medium">
+        {TAB_LIST.map((tab) => {
+          const tabStyle =
+            currentTab === tab
+              ? 'text-blue-7 border-b-[2px] border-b-blue-5'
+              : 'text-grey-6 border-b-[2px] border-b-grey-2'
+
+          return (
+            <button
+              key={tab}
+              className={`grow pb-3 ${tabStyle}`}
+              onClick={() => handleClickTab(tab)}
+            >
+              {tab}
+            </button>
+          )
+        })}
+      </div>
 
       <main className="flex-column scroll mb-2 mt-[30px] grow gap-4">
-        {/* <Link to={`/chatting/chatting-room/${roomId}`}> */}
-        <Link to={`/chatting/chatting-room/0`}>
-          <ChattingProfile
-            name="고로케"
-            title="소프트 팀원 구해요"
-            message="넵 그때 뵙겠습니다."
-            time="1일전"
-            iconType="NAVY"
-          />
-        </Link>
+        {currentTab === TAB_LIST[0] &&
+          carpoolRoomList &&
+          carpoolRoomList.result.map(
+            ({
+              chatRoomId,
+              opponentNickname,
+              carpoolBoardTitle,
+              lastMessage,
+              lastMessageDaysAgo,
+            }) => (
+              <Link to={`/chatting/chatting-room/${chatRoomId}`} key={chatRoomId}>
+                <ChattingProfile
+                  name={opponentNickname}
+                  title={carpoolBoardTitle}
+                  message={lastMessage}
+                  time={lastMessageDaysAgo.toString()}
+                  iconType="NAVY"
+                />
+              </Link>
+            ),
+          )}
       </main>
 
       <BottomNav />

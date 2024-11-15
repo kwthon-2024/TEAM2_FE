@@ -1,3 +1,4 @@
+import { redirect } from 'react-router-dom'
 import axios, {
   type AxiosError,
   type AxiosInstance,
@@ -6,6 +7,8 @@ import axios, {
   type InternalAxiosRequestConfig,
   isAxiosError,
 } from 'axios'
+
+import { clearSessionStorage } from '@/utils'
 
 import { reIssue } from './auth/authApi'
 
@@ -76,6 +79,8 @@ export class HttpClient {
           // }
         } catch (reIssueError) {
           console.error('토큰 재발급 실패:', reIssueError)
+          clearSessionStorage()
+          redirect('/login')
         }
       }
       console.error('API 요청 에러:', response.data)
