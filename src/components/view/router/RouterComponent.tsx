@@ -31,8 +31,20 @@ import { LoginPrivateRoute, PrivateRoute } from './PrivateRouter'
 export const RouterComponent = () => {
   return (
     <Routes>
+      <Route path="/" element={<Onboarding />} />
+      <Route path="/home" element={<Home />} />
+
+      <Route path="/carpool" element={<Carpool />} />
+      <Route path="/carpool/detail/:id" element={<CarpoolDetail />} />
+
+      <Route path="/teammate" element={<Teammate />} />
+      <Route path="/teammate/detail/:id" element={<TeammateDetail />} />
+
+      <Route path="/bus-reserve" element={<BusReserve />} />
+      <Route path="/bus-reserve/create" element={<ReserveCreate />} />
+      <Route path="/bus-reserve/info" element={<ReserveInfo />} />
+
       <Route element={<LoginPrivateRoute />}>
-        <Route path="/" element={<Onboarding />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-up/complete" element={<SignupCompletePage />} />
@@ -54,18 +66,6 @@ export const RouterComponent = () => {
         <Route path="/mypage/myboard" element={<MyPost />} />
         <Route path="/mypage/bookmark" element={<Bookmark />} />
       </Route>
-
-      <Route path="/home" element={<Home />} />
-
-      <Route path="/carpool" element={<Carpool />} />
-      <Route path="/carpool/detail/:id" element={<CarpoolDetail />} />
-
-      <Route path="/teammate" element={<Teammate />} />
-      <Route path="/teammate/detail/:id" element={<TeammateDetail />} />
-
-      <Route path="/bus-reserve" element={<BusReserve />} />
-      <Route path="/bus-reserve/create" element={<ReserveCreate />} />
-      <Route path="/bus-reserve/info" element={<ReserveInfo />} />
     </Routes>
   )
 }

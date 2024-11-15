@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import onboarding_first from '@/assets/onboarding1.svg'
 import onboarding_second from '@/assets/onboarding2.svg'
@@ -53,11 +53,9 @@ export const Onboarding = () => {
       </div>
 
       <div className="my-5 w-full shrink-0 px-4 py-10 pt-1">
-        <Link to={'/login'}>
-          <Button size="lg" classname="w-full" onClick={() => navigate('/home')}>
-            시작하기
-          </Button>
-        </Link>
+        <Button size="lg" classname="w-full" onClick={() => navigate('/home')}>
+          시작하기
+        </Button>
       </div>
     </div>
   )
