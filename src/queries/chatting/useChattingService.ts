@@ -1,6 +1,13 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 
-import { carpoolChattingId, carpoolChattingRoomList } from './chattingApi'
+import {
+  carpoolChattingId,
+  carpoolChattingRoomList,
+  carpoolExitChattingRoom,
+  teammateChattingId,
+  teammateChattingRoomList,
+  teammateExitChattingRoom,
+} from './chattingApi'
 
 const queryKeys = {
   all: ['chatting'] as const,
@@ -27,6 +34,30 @@ export const useCarpoolChattingId = () => {
 
 export const useCarpoolExitChattingRoom = () => {
   return useMutation({
-    mutationFn: carpoolChattingId,
+    mutationFn: carpoolExitChattingRoom,
+  })
+}
+
+export const useTeammateChattingRoomList = () => {
+  return useQuery({
+    queryKey: queryKeys.carpoolList(),
+    queryFn: teammateChattingRoomList,
+    gcTime: 0,
+    staleTime: 0,
+    select: (res) => {
+      return { result: res }
+    },
+  })
+}
+
+export const useTeammateChattingId = () => {
+  return useMutation({
+    mutationFn: teammateChattingId,
+  })
+}
+
+export const useTeammateExitChattingRoom = () => {
+  return useMutation({
+    mutationFn: teammateExitChattingRoom,
   })
 }

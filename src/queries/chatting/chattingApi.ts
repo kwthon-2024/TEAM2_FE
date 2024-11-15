@@ -3,6 +3,10 @@ import type {
   CarpoolChattingIdResponse,
   CarpoolChattingListResponse,
   CarpoolExitChattingRoomRequest,
+  TeammateChattingIdRequest,
+  TeammateChattingIdResponse,
+  TeammateChattingListResponse,
+  TeammateExitChattingRoomRequest,
 } from '@/types'
 
 import { api } from '..'
@@ -21,14 +25,14 @@ export const carpoolExitChattingRoom = async ({ urls }: CarpoolExitChattingRoomR
   return await api.delete(`/carpool/chat/room/list/${urls.chatRoomId}`)
 }
 
-// export const teammateChattingRoomList = async () => {
-//   return await api.get<CarpoolChattingListResponse>(`/team/chat/room/list`)
-// }
+export const teammateChattingRoomList = async () => {
+  return await api.get<TeammateChattingListResponse>(`/team/chat/room/list`)
+}
 
-// export const teammateChattingId = async ({ urls }: CarpoolChattingIdRequest) => {
-//   return await api.post<CarpoolChattingIdResponse>(`/team/chat/room/create/${urls.carpoolBoardId}`)
-// }
+export const teammateChattingId = async ({ urls }: TeammateChattingIdRequest) => {
+  return await api.post<TeammateChattingIdResponse>(`/team/chat/room/create/${urls.teamBoardId}`)
+}
 
-// export const teammateExitChattingRoom = async ({ urls }: CarpoolExitChattingRoomRequest) => {
-//   return await api.delete(`/team/chat/room/list/${urls.chatRoomId}`)
-// }
+export const teammateExitChattingRoom = async ({ urls }: TeammateExitChattingRoomRequest) => {
+  return await api.delete(`/team/chat/room/list/${urls.chatRoomId}`)
+}
