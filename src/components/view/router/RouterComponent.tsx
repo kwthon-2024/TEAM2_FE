@@ -37,37 +37,33 @@ export const RouterComponent = () => {
       </Route>
 
       <Route element={<PrivateRoute />}>
-        {/* home */}
-        <Route path="/home" element={<Home />} />
-
-        {/* carpool */}
-        <Route path="/carpool" element={<Carpool />} />
-        <Route path="/carpool/detail/:id" element={<CarpoolDetail />} />
         <Route path="/carpool/create" element={<CarpoolCreate />} />
         <Route path="/carpool/edit/:id" element={<CarpoolEdit />} />
 
-        {/* teammate */}
-        <Route path="/teammate" element={<Teammate />} />
-        <Route path="/teammate/detail/:id" element={<TeammateDetail />} />
         <Route path="/teammate/create" element={<TeammateCreate />} />
         <Route path="/teammate/edit/:id" element={<TeammateEdit />} />
 
-        {/* chatting */}
         <Route path="/chatting" element={<Chatting />} />
         <Route path="/chatting/chatting-room/:id" element={<ChattingRoom />} />
 
-        {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/account-info" element={<AccountInfo />} />
         <Route path="/mypage/password" element={<NewPassword />} />
         <Route path="/mypage/myboard" element={<MyPost />} />
         <Route path="/mypage/bookmark" element={<Bookmark />} />
-
-        {/* bus */}
-        <Route path="/bus-reserve" element={<BusReserve />} />
-        <Route path="/bus-reserve/create" element={<ReserveCreate />} />
-        <Route path="/bus-reserve/info" element={<ReserveInfo />} />
       </Route>
+
+      <Route path="/home" element={<Home />} />
+
+      <Route path="/carpool" element={<Carpool />} />
+      <Route path="/carpool/detail/:id" element={<CarpoolDetail />} />
+
+      <Route path="/teammate" element={<Teammate />} />
+      <Route path="/teammate/detail/:id" element={<TeammateDetail />} />
+
+      <Route path="/bus-reserve" element={<BusReserve />} />
+      <Route path="/bus-reserve/create" element={<ReserveCreate />} />
+      <Route path="/bus-reserve/info" element={<ReserveInfo />} />
     </Routes>
   )
 }

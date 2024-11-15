@@ -9,7 +9,12 @@ import {
   SubHeaderWithoutIcon,
 } from '@/components/view'
 import { useBoolean } from '@/hooks'
-import { useCarpoolCheckFull, useCarpoolDelete, useCarpoolDetailPage } from '@/queries'
+import {
+  useCarpoolChattingId,
+  useCarpoolCheckFull,
+  useCarpoolDelete,
+  useCarpoolDetailPage,
+} from '@/queries'
 import type { IconType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY, SESSION_NICKNAME } from '@/utils'
 
@@ -97,11 +102,14 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
 
 export const CarpoolDetail = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
+
   const {
     data: detailData,
     isPending,
     isError,
   } = useCarpoolDetailPage({ urls: { carpoolBoardId: parseInt(id as string) } })
+  const { mutate: chattingMutation } = useCarpoolChattingId()
 
   if (isPending || isError) return <div>loading</div>
 
@@ -117,7 +125,19 @@ export const CarpoolDetail = () => {
     price,
     content,
   } = detailData
+
   const isMyPost = author.nickname === getSessionStorageItem(SESSION_NICKNAME)
+
+  const handleClickChatting = () => {
+    chattingMutation(
+      { urls: { carpoolBoardId: id as string } },
+      {
+        onSuccess: ({ chatRoomId }) => {
+          navigate(`/chatting/chatting-room/${chatRoomId}`)
+        },
+      },
+    )
+  }
 
   return (
     <>
@@ -155,7 +175,7 @@ export const CarpoolDetail = () => {
           isMyPost={isMyPost}
           disabled={full}
           onClickBookmark={() => {}}
-          onClickChattingButton={() => {}}
+          onClickChattingButton={handleClickChatting}
         />
       </div>
     </>
