@@ -4,8 +4,24 @@
 @layer base {
   @font-face {
     font-family: Paperlogy;
-    font-weight: 300;
+    font-weight: 400;
     src: url('/src/assets/fonts/PAPERLOGY-4REGULAR.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Paperlogy;
+    font-weight: 500;
+    src: url('/src/assets/fonts/PAPERLOGY-5MEDIUM.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Paperlogy;
+    font-weight: 700;
+    src: url('/src/assets/fonts/PAPERLOGY-7BOLD.ttf') format('truetype');
     font-style: normal;
     font-display: swap;
   }
