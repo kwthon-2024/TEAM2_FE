@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Client } from '@stomp/stompjs'
-import SockJS from 'sockjs-client'
 
 import { api } from '@/queries'
 import { getSessionStorageItem, SESSION_NICKNAME } from '@/utils'
 
-const SERVER_DOMAIN = import.meta.env.VITE_PUBLIC_SERVER_DOMAIN
+const SERVER = import.meta.env.VITE_PUBLIC_SERVER
 // import { useMessageActions } from 'store/chatData'
 
 export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team') => {
@@ -16,10 +15,9 @@ export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team
 
   const connectHandler = () => {
     console.log('WebSocket 연결 시도')
-    const socket = new SockJS(`${SERVER_DOMAIN}/chat`)
 
     client.current = new Client({
-      webSocketFactory: () => socket,
+      brokerURL: `wss://${SERVER}/chat`,
       connectHeaders: {
         host: '/',
         Authorization: token,

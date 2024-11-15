@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import {
   carpoolChattingId,
@@ -12,6 +12,7 @@ import {
 const queryKeys = {
   all: ['chatting'] as const,
   carpoolList: () => [...queryKeys.all, 'carpool', 'chatting-list'] as const,
+  teammateList: () => [...queryKeys.all, 'teammate', 'chatting-list'] as const,
 }
 
 export const useCarpoolChattingRoomList = () => {
@@ -33,14 +34,17 @@ export const useCarpoolChattingId = () => {
 }
 
 export const useCarpoolExitChattingRoom = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: carpoolExitChattingRoom,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.all }),
   })
 }
 
 export const useTeammateChattingRoomList = () => {
   return useQuery({
-    queryKey: queryKeys.carpoolList(),
+    queryKey: queryKeys.teammateList(),
     queryFn: teammateChattingRoomList,
     gcTime: 0,
     staleTime: 0,
@@ -57,7 +61,10 @@ export const useTeammateChattingId = () => {
 }
 
 export const useTeammateExitChattingRoom = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: teammateExitChattingRoom,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.all }),
   })
 }
