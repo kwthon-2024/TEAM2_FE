@@ -1,18 +1,28 @@
 import type { ChangeEvent } from 'react'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { AdditionIcon, Kebab, PostProfile, SendingIcon, SubHeaderWithIcon } from '@/components/view'
 import { useBoolean, useWebSocket } from '@/hooks'
+import { useCarpoolExitChattingRoom } from '@/queries'
 
 export const ChattingRoom = () => {
+  const navigate = useNavigate()
   const { id: roomId } = useParams()
   const { client, sendMessage } = useWebSocket(roomId, 'carpool')
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
   const [message, setMessage] = useState<string>('')
 
+  const { mutate: exitMutation } = useCarpoolExitChattingRoom()
+
   const kebabMap = [
-    { label: '채팅방 나가기', onClick: () => console.log('채팅방 나가기') },
+    {
+      label: '채팅방 나가기',
+      onClick: () => {
+        exitMutation({ urls: { chatRoomId: roomId as string } })
+        navigate('/chatting')
+      },
+    },
     { label: '차단하기', onClick: () => console.log('차단하기') },
   ]
 
