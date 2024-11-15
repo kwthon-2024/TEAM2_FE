@@ -58,7 +58,7 @@ export const CarpoolSearch = () => {
       <SubHeaderWithoutIcon type="null" title="검색" />
 
       <section className="p-medium flex-align mx-4 mt-2 gap-2 rounded-lg border border-grey-2 py-[10px] pl-4 pr-[10px] font-regular">
-        <button type="button" className="flex-align gap-1" onClick={toggleIsShow}>
+        <button type="button" className="flex-align shrink-0 gap-1" onClick={toggleIsShow}>
           <p className="p-small text-grey-6">{filterName}</p>
           <ArrowBottomIcon />
         </button>
@@ -66,6 +66,7 @@ export const CarpoolSearch = () => {
         <input
           type="text"
           {...register('search')}
+          size={7}
           className="focus: flex-1 text-grey-7 outline-none placeholder:text-grey-4"
           placeholder={placeholder ? placeholder : '검색어를 입력해주세요.'}
         />

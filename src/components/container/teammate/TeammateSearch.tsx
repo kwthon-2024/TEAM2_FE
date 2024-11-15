@@ -17,11 +17,12 @@ export const TeammateSearch = () => {
       <SubHeaderWithoutIcon type="null" title="검색" />
 
       <section className="p-medium flex-align mx-4 mt-2 gap-2 rounded-lg border border-grey-2 py-[10px] pl-4 pr-[10px] font-regular">
-        <p className="p-small pr-1 text-grey-6">제목</p>
+        <p className="p-small shrink-0 pr-1 text-grey-6">제목</p>
 
         <input
           type="text"
           {...register('search')}
+          size={7}
           className="focus: flex-1 text-grey-7 outline-none placeholder:text-grey-4"
           placeholder="제목을 입력해주세요."
         />
