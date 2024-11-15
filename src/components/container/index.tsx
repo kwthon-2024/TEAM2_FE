@@ -1,4 +1,5 @@
 // home
+export * from './home/ErrorPage'
 export * from './home/Home'
 export * from './home/Onboarding'
 export * from './home/Splash'

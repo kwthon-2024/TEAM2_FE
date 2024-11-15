@@ -12,6 +12,7 @@ import {
   CarpoolSearch,
   Chatting,
   ChattingRoom,
+  ErrorPage,
   Home,
   LoginPage,
   Mypage,
@@ -74,6 +75,8 @@ export const RouterComponent = () => {
         <Route path="/mypage/myboard" element={<MyPost />} />
         <Route path="/mypage/bookmark" element={<Bookmark />} />
       </Route>
+
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   )
 }
