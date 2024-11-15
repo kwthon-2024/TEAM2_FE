@@ -8,7 +8,7 @@ import type {
   ValidateNicknameRequest,
 } from '@/types'
 
-const BASE_URL = import.meta.env.VITE_PUBLIC_SERVER_URL
+const BASE_URL = import.meta.env.VITE_PUBLIC_SERVER_DOMAIN
 
 export const login = async ({ body }: LoginRequest) => {
   return await axios.post<LoginResponse>(`${BASE_URL}/login`, body, {
