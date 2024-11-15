@@ -9,7 +9,12 @@ import {
   SubHeaderWithoutIcon,
 } from '@/components/view'
 import { useBoolean } from '@/hooks'
-import { useTeammateCheckFull, useTeammateDelete, useTeammateDetailPage } from '@/queries'
+import {
+  useTeammateChattingId,
+  useTeammateCheckFull,
+  useTeammateDelete,
+  useTeammateDetailPage,
+} from '@/queries'
 import type { IconType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY, SESSION_NICKNAME } from '@/utils'
 
@@ -100,11 +105,13 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
 
 export const TeammateDetail = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const {
     data: detailData,
     isPending,
     isError,
   } = useTeammateDetailPage({ urls: { teamBoardId: parseInt(id as string) } })
+  const { mutate: chattingMutation } = useTeammateChattingId()
 
   if (isPending || isError) return <div>loading</div>
 
@@ -120,6 +127,17 @@ export const TeammateDetail = () => {
     content,
   } = detailData
   const isMyPost = author.nickname === getSessionStorageItem(SESSION_NICKNAME)
+
+  const handleClickChatting = () => {
+    chattingMutation(
+      { urls: { teamBoardId: id as string } },
+      {
+        onSuccess: ({ chatRoomId }) => {
+          navigate(`/chatting/chatting-room/${chatRoomId}`)
+        },
+      },
+    )
+  }
 
   return (
     <>
@@ -154,7 +172,7 @@ export const TeammateDetail = () => {
           isMyPost={isMyPost}
           disabled={full}
           onClickBookmark={() => {}}
-          onClickChattingButton={() => {}}
+          onClickChattingButton={handleClickChatting}
         />
       </div>
     </>
