@@ -1,5 +1,6 @@
 // home
 export * from './home/Home'
+export * from './home/Onboarding'
 
 // auth
 export * from './auth/LoginPage'

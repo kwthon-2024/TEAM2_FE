@@ -15,6 +15,7 @@ import {
   Mypage,
   MyPost,
   NewPassword,
+  Onboarding,
   ReserveCreate,
   ReserveInfo,
   SignupCompletePage,
@@ -31,6 +32,7 @@ export const RouterComponent = () => {
   return (
     <Routes>
       <Route element={<LoginPrivateRoute />}>
+        <Route path="/" element={<Onboarding />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/sign-up/complete" element={<SignupCompletePage />} />

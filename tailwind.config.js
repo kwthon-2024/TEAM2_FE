@@ -42,6 +42,11 @@ export default {
         },
         green: '#9CDE70',
       },
+      utilities: {
+        '.webkit-overflow-scrolling-touch': {
+          '-webkit-overflow-scrolling': 'touch',
+        },
+      },
     },
   },
   plugins: [scrollbarHide],

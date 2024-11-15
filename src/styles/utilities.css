@@ -8,4 +8,8 @@
   .hover-scale {
     @apply transition-all hover:scale-[1.02];
   }
+
+  .webkit-overflow-scrolling-touch {
+    -webkit-overflow-scrolling: touch;
+  }
 }
