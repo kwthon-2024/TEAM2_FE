@@ -60,10 +60,10 @@ export const Teammate = () => {
         </div>
       </Link>
 
-      <div className="border-b border-b-grey-2">
+      <div className="mx-4 border-b border-b-grey-2">
         <button
           type="button"
-          className="flex-align mx-4 ml-auto gap-1 py-3"
+          className="flex-align ml-auto gap-1 py-3"
           onClick={handleClickRecruit}
         >
           <CheckBoxIcon active={isChecked} />
