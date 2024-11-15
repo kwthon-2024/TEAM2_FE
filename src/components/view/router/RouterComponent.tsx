@@ -25,6 +25,7 @@ import {
   TeammateCreate,
   TeammateDetail,
   TeammateEdit,
+  TeammateSearch,
 } from '@/components/container'
 
 import { LoginPrivateRoute, PrivateRoute } from './PrivateRouter'
@@ -58,6 +59,7 @@ export const RouterComponent = () => {
 
         <Route path="/teammate/create" element={<TeammateCreate />} />
         <Route path="/teammate/edit/:id" element={<TeammateEdit />} />
+        <Route path="/teammate/search" element={<TeammateSearch />} />
 
         <Route path="/chatting" element={<Chatting />} />
         <Route path="/chatting/chatting-room/:id" element={<ChattingRoom />} />

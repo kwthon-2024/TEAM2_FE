@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 
 import {
+  ArrowBottomIcon,
   BottomNav,
   CheckBoxIcon,
   MainHeader,
   PostAdditionButton,
   PostItem,
-  SearchWithFilter,
+  SearchIcon,
 } from '@/components/view'
 import { useToggle } from '@/hooks'
 import { useCarpoolPage, useCarpoolRecruitPage } from '@/queries'
@@ -48,7 +49,18 @@ export const Carpool = () => {
       <MainHeader />
 
       <Link to={'/carpool/search'}>
-        <SearchWithFilter kebabMap={[]} onClickSearchButton={() => {}} />
+        <div className="p-medium flex-align mx-4 gap-2 rounded-lg border border-grey-2 py-[10px] pl-4 pr-[10px] font-regular">
+          <div className="flex-align gap-1">
+            <p className="p-small text-grey-6">제목</p>
+            <ArrowBottomIcon />
+          </div>
+
+          <input
+            className="focus: flex-1 text-grey-7 outline-none placeholder:text-grey-4"
+            placeholder="검색어를 입력해주세요."
+          />
+          <SearchIcon />
+        </div>
       </Link>
 
       <div className="border-b border-b-grey-2">
@@ -67,7 +79,7 @@ export const Carpool = () => {
           showingData.result.map(
             ({ carpoolBoardId, title, createdAt, trainingDate, departPlace, departTime, full }) => (
               <PostItem
-                key={carpoolBoardId}
+                key={`carpool-${carpoolBoardId}`}
                 title={title}
                 createdAt={createdAt}
                 trainingDate={trainingDate}

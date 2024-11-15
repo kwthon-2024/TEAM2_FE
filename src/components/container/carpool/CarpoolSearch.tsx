@@ -49,7 +49,7 @@ export const CarpoolSearch = () => {
       category: Object.keys(KEBAB_LIST).find(
         (key) => KEBAB_LIST[key as keyof typeof KEBAB_LIST] === filterName,
       ) as keyof typeof KEBAB_LIST,
-      keyword: watchField.toString(),
+      keyword: watchField,
     },
   })
 
