@@ -1,4 +1,5 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 
 import { getSessionStorageItem, SESSION_LOGIN_KEY } from '@/utils'
 
@@ -8,6 +9,14 @@ export const LoginPrivateRoute = () => {
 }
 
 export const PrivateRoute = () => {
+  const navigate = useNavigate()
   const session = getSessionStorageItem(SESSION_LOGIN_KEY)
-  return session ? <Outlet /> : <Navigate to="/login" />
+
+  useEffect(() => {
+    if (!session) {
+      navigate('/login', { replace: true })
+    }
+  }, [session, navigate])
+
+  return session ? <Outlet /> : null
 }

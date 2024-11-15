@@ -45,6 +45,7 @@ export const useCarpoolSearchPage = (request: CarpoolSearchRequest) => {
   return useQuery({
     queryKey: queryKeys.search(request.urls),
     queryFn: () => carpoolSearch(request),
+    enabled: false,
   })
 }
 

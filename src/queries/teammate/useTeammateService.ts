@@ -45,6 +45,7 @@ export const useTeammateSearchPage = (request: TeammateSearchRequest) => {
   return useQuery({
     queryKey: queryKeys.search(request.urls),
     queryFn: () => teammateSearch(request),
+    enabled: false,
   })
 }
 

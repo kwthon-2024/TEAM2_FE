@@ -1,35 +1,17 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {
+  ArrowBottomIcon,
   BottomNav,
   CheckBoxIcon,
   MainHeader,
   PostAdditionButton,
   PostItem,
-  SearchWithFilter,
+  SearchIcon,
 } from '@/components/view'
 import { useToggle } from '@/hooks'
 import { useCarpoolPage, useCarpoolRecruitPage } from '@/queries'
-import type { KebabMapType } from '@/types'
 import { getSessionStorageItem, SESSION_LOGIN_KEY } from '@/utils'
-
-const kebabMap: KebabMapType = [
-  {
-    label: '제목',
-    type: 'text',
-    placeholder: '제목을 입력해주세요.',
-  },
-  {
-    label: '훈련 날짜',
-    type: 'number',
-    placeholder: 'ex) 20240521',
-  },
-  {
-    label: '출발 장소',
-    type: 'text',
-    placeholder: '출발 장소를 입력해주세요.',
-  },
-]
 
 export const Carpool = () => {
   const navigate = useNavigate()
@@ -66,7 +48,20 @@ export const Carpool = () => {
     <div className="flex-column h-full">
       <MainHeader />
 
-      <SearchWithFilter kebabMap={kebabMap} onClickSearchButton={() => {}} />
+      <Link to={'/carpool/search'}>
+        <div className="p-medium flex-align mx-4 gap-2 rounded-lg border border-grey-2 py-[10px] pl-4 pr-[10px] font-regular">
+          <div className="flex-align gap-1">
+            <p className="p-small text-grey-6">제목</p>
+            <ArrowBottomIcon />
+          </div>
+
+          <input
+            className="focus: flex-1 text-grey-7 outline-none placeholder:text-grey-4"
+            placeholder="검색어를 입력해주세요."
+          />
+          <SearchIcon />
+        </div>
+      </Link>
 
       <div className="border-b border-b-grey-2">
         <button
@@ -84,7 +79,7 @@ export const Carpool = () => {
           showingData.result.map(
             ({ carpoolBoardId, title, createdAt, trainingDate, departPlace, departTime, full }) => (
               <PostItem
-                key={carpoolBoardId}
+                key={`carpool-${carpoolBoardId}`}
                 title={title}
                 createdAt={createdAt}
                 trainingDate={trainingDate}

@@ -34,7 +34,7 @@ export const mypagePassword = async ({ body }: MypagePasswordRequest) => {
 }
 
 export const mypageExit = async () => {
-  return await api.post(`/exit`)
+  return await api.delete(`/exit`)
 }
 
 export const mypageLogout = async () => {

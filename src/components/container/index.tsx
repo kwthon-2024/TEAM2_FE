@@ -1,5 +1,7 @@
 // home
 export * from './home/Home'
+export * from './home/Onboarding'
+export * from './home/Splash'
 
 // auth
 export * from './auth/LoginPage'
@@ -18,12 +20,14 @@ export * from './carpool/Carpool'
 export * from './carpool/CarpoolCreate'
 export * from './carpool/CarpoolDetail'
 export * from './carpool/CarpoolEdit'
+export * from './carpool/CarpoolSearch'
 
 // Teammate
 export * from './teammate/Teammate'
 export * from './teammate/TeammateCreate'
 export * from './teammate/TeammateDetail'
 export * from './teammate/TeammateEdit'
+export * from './teammate/TeammateSearch'
 
 // bus
 export * from './bus/BusReserve'
