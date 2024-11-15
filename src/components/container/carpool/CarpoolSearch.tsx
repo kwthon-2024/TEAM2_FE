@@ -59,7 +59,7 @@ export const CarpoolSearch = () => {
 
       <section className="p-medium flex-align mx-4 mt-2 gap-2 rounded-lg border border-grey-2 py-[10px] pl-4 pr-[10px] font-regular">
         <button type="button" className="flex-align shrink-0 gap-1" onClick={toggleIsShow}>
-          <p className="p-small text-grey-6">{filterName}</p>
+          <p className="p-small shrink-0 text-grey-6">{filterName}</p>
           <ArrowBottomIcon />
         </button>
 

@@ -49,10 +49,11 @@ export const Teammate = () => {
 
       <Link to={'/teammate/search'}>
         <div className="p-medium flex-align mx-4 gap-2 rounded-lg border border-grey-2 py-[10px] pl-4 pr-[10px] font-regular">
-          <p className="p-small pr-1 text-grey-6">제목</p>
+          <p className="p-small shrink-0 pr-1 text-grey-6">제목</p>
 
           <input
             className="focus: flex-1 text-grey-7 outline-none placeholder:text-grey-4"
+            size={7}
             placeholder="검색어를 입력해주세요."
           />
           <SearchIcon />
