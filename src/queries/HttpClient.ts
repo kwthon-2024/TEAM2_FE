@@ -71,19 +71,14 @@ export class HttpClient {
     if (isAxiosError(error)) {
       if (response?.status === 403) {
         try {
-          const reIssueResponse = await reIssue()
+          const reIssueResponse = (await reIssue()) as AxiosResponse
           console.log(reIssueResponse)
-          // const newAccessToken = reIssueResponse.headers['authorization']
-          // this.setAccessToken(newAccessToken)
-          // const originalRequest = error.config
-          // if (newAccessToken && originalRequest) {
-          //   originalRequest.headers.Authorization = newAccessToken
-          //   return this.client(originalRequest)
-          // }
+          const newAccessToken = reIssueResponse.headers['authorization']
+          this.setAccessToken(newAccessToken)
         } catch (reIssueError) {
           console.error('토큰 재발급 실패:', reIssueError)
           clearSessionStorage()
-          window.location.href = '/login'
+          // window.location.href = '/login'
         }
       }
       console.error('API 요청 에러:', response.data)
