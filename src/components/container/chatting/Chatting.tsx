@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { BottomNav, ChattingProfile, MainHeader } from '@/components/view'
 import { useCarpoolChattingRoomList, useTeammateChattingRoomList } from '@/queries'
+import type { IconType } from '@/types'
 import {
   getSessionStorageItem,
   SESSION_ROOM_TYPE,
@@ -68,14 +69,15 @@ export const Chatting = () => {
               carpoolBoardTitle,
               lastMessage,
               lastMessageDaysAgo,
+              militaryChaplain,
             }) => (
-              <Link to={`/chatting/chatting-room/${chatRoomId}`} key={chatRoomId}>
+              <Link to={`/chatting/chatting-room/carpool/${chatRoomId}`} key={chatRoomId}>
                 <ChattingProfile
                   name={opponentNickname}
                   title={carpoolBoardTitle}
                   message={lastMessage}
                   time={lastMessageDaysAgo.toString()}
-                  iconType="NAVY"
+                  iconType={militaryChaplain as IconType}
                 />
               </Link>
             ),
@@ -83,14 +85,21 @@ export const Chatting = () => {
         {currentTab === TAB_LIST[1] &&
           teammateRoomList &&
           teammateRoomList.result.map(
-            ({ chatRoomId, opponentNickname, teamBoardTitle, lastMessage, lastMessageDaysAgo }) => (
-              <Link to={`/chatting/chatting-room/${chatRoomId}`} key={chatRoomId}>
+            ({
+              chatRoomId,
+              opponentNickname,
+              teamBoardTitle,
+              lastMessage,
+              lastMessageDaysAgo,
+              militaryChaplain,
+            }) => (
+              <Link to={`/chatting/chatting-room/teammate/${chatRoomId}`} key={chatRoomId}>
                 <ChattingProfile
                   name={opponentNickname}
                   title={teamBoardTitle}
                   message={lastMessage}
                   time={lastMessageDaysAgo.toString()}
-                  iconType="NAVY"
+                  iconType={militaryChaplain as IconType}
                 />
               </Link>
             ),

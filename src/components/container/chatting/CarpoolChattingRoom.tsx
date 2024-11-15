@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Bubble } from '@/components/domain'
@@ -12,57 +12,32 @@ import {
   SubHeaderWithIcon,
 } from '@/components/view'
 import { useBoolean, useWebSocket } from '@/hooks'
-import {
-  useCarpoolChattingRoom,
-  useCarpoolExitChattingRoom,
-  useTeammateChattingRoom,
-  useTeammateExitChattingRoom,
-} from '@/queries'
+import { useCarpoolChattingRoom, useCarpoolExitChattingRoom } from '@/queries'
 import type { IconType } from '@/types'
-import { getSessionStorageItem, SESSION_ROOM_TYPE } from '@/utils'
 
-export const ChattingRoom = () => {
+export const CarpoolChattingRoom = () => {
   const navigate = useNavigate()
   const { id: roomId } = useParams()
-  const roomType = getSessionStorageItem(SESSION_ROOM_TYPE)
 
-  if (!roomType) navigate(-1)
-
-  const { client, sendMessage } = useWebSocket(roomId, roomType as 'carpool' | 'team')
+  const { client, sendMessage } = useWebSocket(roomId, 'carpool')
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
   const [message, setMessage] = useState<string>('')
 
   const { mutate: exitCarpoolMutation } = useCarpoolExitChattingRoom()
-  const { mutate: exitTeammateMutation } = useTeammateExitChattingRoom()
 
   const {
     data: carpoolRoomData,
-    refetch: carpoolRoomRefetch,
-    isPending: carpoolPending,
-    isError: carpoolError,
+    isPending,
+    isError,
   } = useCarpoolChattingRoom({
     urls: { chatRoomId: roomId as string },
   })
-  const {
-    data: teammateRoomData,
-    refetch: teammateRoomRefetch,
-    isPending: teammatePending,
-    isError: teammateError,
-  } = useTeammateChattingRoom({
-    urls: { chatRoomId: roomId as string },
-  })
-
-  useEffect(() => {
-    if (roomType === 'carpool') carpoolRoomRefetch()
-    else teammateRoomRefetch()
-  }, [])
 
   const kebabMap = [
     {
       label: '채팅방 나가기',
       onClick: () => {
-        if (roomType === 'carpool') exitCarpoolMutation({ urls: { chatRoomId: roomId as string } })
-        else exitTeammateMutation({ urls: { chatRoomId: roomId as string } })
+        exitCarpoolMutation({ urls: { chatRoomId: roomId as string } })
         navigate('/chatting')
       },
     },
@@ -79,21 +54,23 @@ export const ChattingRoom = () => {
     }
   }
 
-  if (roomType === 'carpool' && (carpoolError || carpoolPending)) return <div>loading</div>
-  if (roomType === 'team' && (teammateError || teammatePending)) return <div>loading</div>
+  if (isPending || isError) return <div>loading</div>
 
-  const { opponentNickname, yearsSinceDischarge, boardTitle, militaryChaplain, previousMessages } =
-    roomType === 'carpool'
-      ? { ...carpoolRoomData, boardTitle: carpoolRoomData?.carpoolBoardTitle || '' }
-      : { ...teammateRoomData, boardTitle: teammateRoomData?.teamBoardTitle || '' }
+  const {
+    opponentNickname,
+    yearsSinceDischarge,
+    carpoolBoardTitle,
+    militaryChaplain,
+    previousMessages,
+  } = carpoolRoomData
 
   return (
     <div className="flex-column h-full">
       <SubHeaderWithIcon type={'kebab'} onClickKebab={kebabState ? setKebabFalse : setKebabTrue} />
       <PostProfile
-        name={opponentNickname as string}
-        year={(yearsSinceDischarge as number).toString()}
-        subText={boardTitle}
+        name={opponentNickname}
+        year={yearsSinceDischarge.toString()}
+        subText={carpoolBoardTitle}
         iconType={militaryChaplain as IconType}
       />
 
@@ -105,7 +82,7 @@ export const ChattingRoom = () => {
           const layoutStyle = isMyMessage ? 'flex flex-row-reverse items-center' : 'flex-align'
           return (
             <div key={index} className={`${layoutStyle} gap-3`}>
-              {!isMyMessage && <ProfileImage size="sm" iconType="NAVY" />}
+              {!isMyMessage && <ProfileImage size="sm" iconType={militaryChaplain as IconType} />}
               <Bubble isMyMessage={isMyMessage} message={content} />
               <span className="p-xsmall shrink-0 self-end text-grey-5">{createdAt}</span>
             </div>

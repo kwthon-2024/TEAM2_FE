@@ -31,5 +31,7 @@ export * from './bus/ReserveCreate'
 export * from './bus/ReserveInfo'
 
 // chatting
+export * from './chatting/CarpoolChattingRoom'
 export * from './chatting/Chatting'
 export * from './chatting/ChattingRoom'
+export * from './chatting/TeammateChattingRoom'

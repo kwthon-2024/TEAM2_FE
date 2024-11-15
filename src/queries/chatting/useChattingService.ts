@@ -1,10 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
+import type { CarpoolChattingRoomRequest, TeammateChattingRoomRequest } from '@/types'
+
 import {
   carpoolChattingId,
+  carpoolChattingRoomInfo,
   carpoolChattingRoomList,
   carpoolExitChattingRoom,
   teammateChattingId,
+  teammateChattingRoomInfo,
   teammateChattingRoomList,
   teammateExitChattingRoom,
 } from './chattingApi'
@@ -12,7 +16,11 @@ import {
 const queryKeys = {
   all: ['chatting'] as const,
   carpoolList: () => [...queryKeys.all, 'carpool', 'chatting-list'] as const,
+  carpoolRoom: (urls: CarpoolChattingRoomRequest['urls']) =>
+    [...queryKeys.all, 'carpool', ...Object.values(urls)] as const,
   teammateList: () => [...queryKeys.all, 'teammate', 'chatting-list'] as const,
+  teammateRoom: (urls: TeammateChattingRoomRequest['urls']) =>
+    [...queryKeys.all, 'teammate', ...Object.values(urls)] as const,
 }
 
 export const useCarpoolChattingRoomList = () => {
@@ -21,9 +29,6 @@ export const useCarpoolChattingRoomList = () => {
     queryFn: carpoolChattingRoomList,
     gcTime: 0,
     staleTime: 0,
-    select: (res) => {
-      return { result: res }
-    },
   })
 }
 
@@ -42,15 +47,19 @@ export const useCarpoolExitChattingRoom = () => {
   })
 }
 
+export const useCarpoolChattingRoom = (request: CarpoolChattingRoomRequest) => {
+  return useQuery({
+    queryKey: queryKeys.carpoolRoom(request.urls),
+    queryFn: () => carpoolChattingRoomInfo(request),
+  })
+}
+
 export const useTeammateChattingRoomList = () => {
   return useQuery({
     queryKey: queryKeys.teammateList(),
     queryFn: teammateChattingRoomList,
     gcTime: 0,
     staleTime: 0,
-    select: (res) => {
-      return { result: res }
-    },
   })
 }
 
@@ -66,5 +75,12 @@ export const useTeammateExitChattingRoom = () => {
   return useMutation({
     mutationFn: teammateExitChattingRoom,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.all }),
+  })
+}
+
+export const useTeammateChattingRoom = (request: TeammateChattingRoomRequest) => {
+  return useQuery({
+    queryKey: queryKeys.teammateRoom(request.urls),
+    queryFn: () => teammateChattingRoomInfo(request),
   })
 }

@@ -141,7 +141,7 @@ export const TeammateDetail = () => {
       { urls: { teamBoardId: id as string } },
       {
         onSuccess: ({ chatRoomId }) => {
-          navigate(`/chatting/chatting-room/${chatRoomId}`)
+          navigate(`/chatting/chatting-room/teammate/${chatRoomId}`)
         },
       },
     )

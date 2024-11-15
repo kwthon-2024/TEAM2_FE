@@ -5,6 +5,7 @@ import {
   Bookmark,
   BusReserve,
   Carpool,
+  CarpoolChattingRoom,
   CarpoolCreate,
   CarpoolDetail,
   CarpoolEdit,
@@ -20,6 +21,7 @@ import {
   SignupCompletePage,
   SignupPage,
   Teammate,
+  TeammateChattingRoom,
   TeammateCreate,
   TeammateDetail,
   TeammateEdit,
@@ -45,6 +47,8 @@ export const RouterComponent = () => {
 
         <Route path="/chatting" element={<Chatting />} />
         <Route path="/chatting/chatting-room/:id" element={<ChattingRoom />} />
+        <Route path="/chatting/chatting-room/carpool/:id" element={<CarpoolChattingRoom />} />
+        <Route path="/chatting/chatting-room/teammate/:id" element={<TeammateChattingRoom />} />
 
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/account-info" element={<AccountInfo />} />

@@ -2,10 +2,14 @@ import type {
   CarpoolChattingIdRequest,
   CarpoolChattingIdResponse,
   CarpoolChattingListResponse,
+  CarpoolChattingRoomRequest,
+  CarpoolChattingRoomResponse,
   CarpoolExitChattingRoomRequest,
   TeammateChattingIdRequest,
   TeammateChattingIdResponse,
   TeammateChattingListResponse,
+  TeammateChattingRoomRequest,
+  TeammateChattingRoomResponse,
   TeammateExitChattingRoomRequest,
 } from '@/types'
 
@@ -25,6 +29,10 @@ export const carpoolExitChattingRoom = async ({ urls }: CarpoolExitChattingRoomR
   return await api.delete(`/carpool/chat/room/list/${urls.chatRoomId}`)
 }
 
+export const carpoolChattingRoomInfo = async ({ urls }: CarpoolChattingRoomRequest) => {
+  return await api.get<CarpoolChattingRoomResponse>(`/carpool/chat/room/list/${urls.chatRoomId}`)
+}
+
 export const teammateChattingRoomList = async () => {
   return await api.get<TeammateChattingListResponse>(`/team/chat/room/list`)
 }
@@ -35,4 +43,8 @@ export const teammateChattingId = async ({ urls }: TeammateChattingIdRequest) =>
 
 export const teammateExitChattingRoom = async ({ urls }: TeammateExitChattingRoomRequest) => {
   return await api.delete(`/team/chat/room/list/${urls.chatRoomId}`)
+}
+
+export const teammateChattingRoomInfo = async ({ urls }: TeammateChattingRoomRequest) => {
+  return await api.get<TeammateChattingRoomResponse>(`/team/chat/room/list/${urls.chatRoomId}`)
 }

@@ -18,7 +18,21 @@ type TeammateChattingRoomType = ChattingRoomType & {
   teamBoardId: string
 }
 
-export type CarpoolChattingListResponse = Omit<CarpoolChattingRoomType, 'carpoolBoardId'>[]
+type ChattingType = {
+  opponentNickname: string
+  yearsSinceDischarge: number
+  militaryChaplain: string
+  previousMessages: {
+    senderName: string
+    content: string
+    createdAt: string
+  }[]
+}
+
+export type CarpoolChattingListResponse = {
+  result: (Omit<CarpoolChattingRoomType, 'carpoolBoardId'> &
+    Pick<ChattingType, 'militaryChaplain'>)[]
+}
 
 export type CarpoolChattingIdRequest = {
   urls: Pick<CarpoolChattingRoomType, 'carpoolBoardId'>
@@ -29,7 +43,15 @@ export type CarpoolExitChattingRoomRequest = {
   urls: Pick<CarpoolChattingRoomType, 'chatRoomId'>
 }
 
-export type TeammateChattingListResponse = Omit<TeammateChattingRoomType, 'teamBoardId'>[]
+export type CarpoolChattingRoomRequest = {
+  urls: Pick<ChattingRoomType, 'chatRoomId'>
+}
+export type CarpoolChattingRoomResponse = ChattingType &
+  Pick<CarpoolChattingRoomType, 'carpoolBoardTitle'>
+
+export type TeammateChattingListResponse = {
+  result: (Omit<TeammateChattingRoomType, 'teamBoardId'> & Pick<ChattingType, 'militaryChaplain'>)[]
+}
 
 export type TeammateChattingIdRequest = {
   urls: Pick<TeammateChattingRoomType, 'teamBoardId'>
@@ -39,6 +61,12 @@ export type TeammateChattingIdResponse = Omit<TeammateChattingRoomType, 'teamBoa
 export type TeammateExitChattingRoomRequest = {
   urls: Pick<TeammateChattingRoomType, 'chatRoomId'>
 }
+
+export type TeammateChattingRoomRequest = {
+  urls: Pick<ChattingRoomType, 'chatRoomId'>
+}
+export type TeammateChattingRoomResponse = ChattingType &
+  Pick<TeammateChattingRoomType, 'teamBoardTitle'>
 
 export type SendingMessageRequset = {
   chatRoomId: string

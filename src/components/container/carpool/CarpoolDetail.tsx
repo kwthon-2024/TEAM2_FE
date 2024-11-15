@@ -141,7 +141,7 @@ export const CarpoolDetail = () => {
       {
         onSuccess: ({ chatRoomId }) => {
           setSessionStorageItem(SESSION_ROOM_TYPE, TAB_LIST_EN[0])
-          navigate(`/chatting/chatting-room/${chatRoomId}`)
+          navigate(`/chatting/chatting-room/carpool/${chatRoomId}`)
         },
       },
     )
