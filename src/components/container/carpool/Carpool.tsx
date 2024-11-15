@@ -38,14 +38,14 @@ export const Carpool = () => {
   const [isChecked, toggleIsChecked] = useToggle()
   const {
     data: carpoolData,
-    isPending: isCarpoolPending,
-    isError: isCarpoolError,
+    // isPending: isCarpoolPending,
+    // isError: isCarpoolError,
   } = useCarpoolPage()
 
   const {
     data: carpoolRecruitData,
-    isPending: isCarpoolRecruitPending,
-    isError: isCarpoolRecruitError,
+    // isPending: isCarpoolRecruitPending,
+    // isError: isCarpoolRecruitError,
     refetch,
   } = useCarpoolRecruitPage()
 

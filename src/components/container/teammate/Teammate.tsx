@@ -33,14 +33,14 @@ export const Teammate = () => {
   const [isChecked, toggleIsChecked] = useToggle()
   const {
     data: teammateData,
-    isPending: isTeammatePending,
-    isError: isTeammateError,
+    // isPending: isTeammatePending,
+    // isError: isTeammateError,
   } = useTeammatePage()
 
   const {
     data: teammateRecruitData,
-    isPending: isTeammateRecruitPending,
-    isError: isTeammateRecruitError,
+    // isPending: isTeammateRecruitPending,
+    // isError: isTeammateRecruitError,
     refetch,
   } = useTeammateRecruitPage()
 
