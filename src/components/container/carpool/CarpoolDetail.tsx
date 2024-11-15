@@ -16,7 +16,14 @@ import {
   useCarpoolDetailPage,
 } from '@/queries'
 import type { IconType } from '@/types'
-import { getSessionStorageItem, SESSION_LOGIN_KEY, SESSION_NICKNAME } from '@/utils'
+import {
+  getSessionStorageItem,
+  SESSION_LOGIN_KEY,
+  SESSION_NICKNAME,
+  SESSION_ROOM_TYPE,
+  setSessionStorageItem,
+  TAB_LIST_EN,
+} from '@/utils'
 
 type HeaderProps = {
   isMyPost: boolean
@@ -133,6 +140,7 @@ export const CarpoolDetail = () => {
       { urls: { carpoolBoardId: id as string } },
       {
         onSuccess: ({ chatRoomId }) => {
+          setSessionStorageItem(SESSION_ROOM_TYPE, TAB_LIST_EN[0])
           navigate(`/chatting/chatting-room/${chatRoomId}`)
         },
       },

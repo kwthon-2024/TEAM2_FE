@@ -5,11 +5,16 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { AdditionIcon, Kebab, PostProfile, SendingIcon, SubHeaderWithIcon } from '@/components/view'
 import { useBoolean, useWebSocket } from '@/hooks'
 import { useCarpoolExitChattingRoom } from '@/queries'
+import { getSessionStorageItem, SESSION_ROOM_TYPE } from '@/utils'
 
 export const ChattingRoom = () => {
   const navigate = useNavigate()
   const { id: roomId } = useParams()
-  const { client, sendMessage } = useWebSocket(roomId, 'carpool')
+  const roomType = getSessionStorageItem(SESSION_ROOM_TYPE)
+
+  if (!roomType) navigate(-1)
+
+  const { client, sendMessage } = useWebSocket(roomId, roomType as 'carpool' | 'team')
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
   const [message, setMessage] = useState<string>('')
 

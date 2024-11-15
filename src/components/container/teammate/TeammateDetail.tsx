@@ -16,7 +16,14 @@ import {
   useTeammateDetailPage,
 } from '@/queries'
 import type { IconType } from '@/types'
-import { getSessionStorageItem, SESSION_LOGIN_KEY, SESSION_NICKNAME } from '@/utils'
+import {
+  getSessionStorageItem,
+  SESSION_LOGIN_KEY,
+  SESSION_NICKNAME,
+  SESSION_ROOM_TYPE,
+  setSessionStorageItem,
+  TAB_LIST_EN,
+} from '@/utils'
 
 type HeaderProps = {
   isMyPost: boolean
@@ -57,6 +64,7 @@ const Header = ({ isMyPost, isFull }: HeaderProps) => {
       { urls: { teamBoardId: parseInt(id as string) } },
       {
         onSuccess: () => {
+          setSessionStorageItem(SESSION_ROOM_TYPE, TAB_LIST_EN[1])
           navigate('/teammate', { replace: true })
         },
       },

@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom'
 
 import { BottomNav, ChattingProfile, MainHeader } from '@/components/view'
 import { useCarpoolChattingRoomList, useTeammateChattingRoomList } from '@/queries'
-import { getSessionStorageItem, setSessionStorageItem, TAB_LIST } from '@/utils'
+import {
+  getSessionStorageItem,
+  SESSION_ROOM_TYPE,
+  setSessionStorageItem,
+  TAB_LIST,
+  TAB_LIST_EN,
+} from '@/utils'
 
 type TabType = (typeof TAB_LIST)[number]
 
@@ -16,8 +22,13 @@ export const Chatting = () => {
   const { data: teammateRoomList, refetch: teammateRoomRefetch } = useTeammateChattingRoomList()
 
   const handleClickTab = (tab: TabType) => {
-    if (tab === TAB_LIST[0]) carpoolRoomRefetch()
-    else teammateRoomRefetch()
+    if (tab === TAB_LIST[0]) {
+      carpoolRoomRefetch()
+      setSessionStorageItem(SESSION_ROOM_TYPE, TAB_LIST_EN[0])
+    } else {
+      teammateRoomRefetch()
+      setSessionStorageItem(SESSION_ROOM_TYPE, TAB_LIST_EN[1])
+    }
     setSessionStorageItem(storageName, tab)
     setCurrentTab(tab)
   }
