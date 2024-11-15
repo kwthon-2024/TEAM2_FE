@@ -8,6 +8,7 @@ export * from './auth/SignupPage'
 
 // mypage
 export * from './mypage/AccountInfo'
+export * from './mypage/Bookmark'
 export * from './mypage/Mypage'
 export * from './mypage/MyPost'
 export * from './mypage/NewPassword'
@@ -28,3 +29,7 @@ export * from './teammate/TeammateEdit'
 export * from './bus/BusReserve'
 export * from './bus/ReserveCreate'
 export * from './bus/ReserveInfo'
+
+// chatting
+export * from './chatting/Chatting'
+export * from './chatting/ChattingRoom'

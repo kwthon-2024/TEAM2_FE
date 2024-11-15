@@ -2,11 +2,14 @@ import { Route, Routes } from 'react-router-dom'
 
 import {
   AccountInfo,
+  Bookmark,
   BusReserve,
   Carpool,
   CarpoolCreate,
   CarpoolDetail,
   CarpoolEdit,
+  Chatting,
+  ChattingRoom,
   Home,
   LoginPage,
   Mypage,
@@ -49,11 +52,16 @@ export const RouterComponent = () => {
         <Route path="/teammate/create" element={<TeammateCreate />} />
         <Route path="/teammate/edit/:id" element={<TeammateEdit />} />
 
+        {/* chatting */}
+        <Route path="/chatting" element={<Chatting />} />
+        <Route path="/chatting/chatting-room/:id" element={<ChattingRoom />} />
+
         {/* mypage */}
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/account-info" element={<AccountInfo />} />
         <Route path="/mypage/password" element={<NewPassword />} />
         <Route path="/mypage/myboard" element={<MyPost />} />
+        <Route path="/mypage/bookmark" element={<Bookmark />} />
 
         {/* bus */}
         <Route path="/bus-reserve" element={<BusReserve />} />
