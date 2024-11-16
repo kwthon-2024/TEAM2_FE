@@ -52,7 +52,7 @@ export const BusReserve = () => {
           const dotStyle = isSingleItem ? '' : 'ml-6 list-disc'
           return (
             <div key={label} className={`${layoutStyle}`}>
-              <h6 className="shrink-0 font-medium text-blue-5">{label}</h6>
+              <h6 className="mr-4 shrink-0 font-medium text-blue-5">{label}</h6>
               <ul className="flex-column gap-2">
                 {contents.map((content) => (
                   <li key={content} className={`text-grey-6 ${dotStyle}`}>
