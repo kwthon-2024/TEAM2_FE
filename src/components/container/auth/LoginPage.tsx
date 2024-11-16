@@ -10,6 +10,7 @@ import {
   SESSION_LOGIN_KEY,
   SESSION_MILITARY_CHPLAIN,
   SESSION_NICKNAME,
+  SESSION_REFRESH,
   setSessionStorageItem,
 } from '@/utils'
 
@@ -29,6 +30,7 @@ export const LoginPage = () => {
         onSuccess: ({ headers, data: { nickname, militaryChaplain } }) => {
           api.setAccessToken(headers.authorization)
           setIsLoginFailed(false)
+          setSessionStorageItem(SESSION_REFRESH, headers.refresh)
           setSessionStorageItem(SESSION_LOGIN_KEY, 'true')
           setSessionStorageItem(SESSION_NICKNAME, nickname)
           setSessionStorageItem(SESSION_MILITARY_CHPLAIN, militaryChaplain)

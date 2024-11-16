@@ -6,6 +6,7 @@ import { Bubble } from '@/components/domain'
 import {
   AdditionIcon,
   Kebab,
+  Loading,
   PostProfile,
   ProfileImage,
   SendingIcon,
@@ -79,8 +80,8 @@ export const ChattingRoom = () => {
     }
   }
 
-  if (roomType === 'carpool' && (carpoolError || carpoolPending)) return <div>loading</div>
-  if (roomType === 'team' && (teammateError || teammatePending)) return <div>loading</div>
+  if (roomType === 'carpool' && (carpoolError || carpoolPending)) return <Loading />
+  if (roomType === 'team' && (teammateError || teammatePending)) return <Loading />
 
   const { opponentNickname, yearsSinceDischarge, boardTitle, militaryChaplain, previousMessages } =
     roomType === 'carpool'

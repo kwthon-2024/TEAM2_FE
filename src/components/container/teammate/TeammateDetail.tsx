@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   Kebab,
+  Loading,
   ModalWithTwoButton,
   PostBottom,
   PostProfile,
@@ -121,7 +122,7 @@ export const TeammateDetail = () => {
   } = useTeammateDetailPage({ urls: { teamBoardId: parseInt(id as string) } })
   const { mutate: chattingMutation } = useTeammateChattingId()
 
-  if (isPending || isError) return <div>loading</div>
+  if (isPending || isError) return <Loading />
 
   const {
     author,

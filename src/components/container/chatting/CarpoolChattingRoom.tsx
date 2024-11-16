@@ -6,6 +6,7 @@ import { Bubble } from '@/components/domain'
 import {
   AdditionIcon,
   Kebab,
+  Loading,
   PostProfile,
   ProfileImage,
   SendingIcon,
@@ -54,7 +55,7 @@ export const CarpoolChattingRoom = () => {
     }
   }
 
-  if (isPending || isError) return <div>loading</div>
+  if (isPending || isError) return <Loading />
 
   const {
     opponentNickname,

@@ -2,6 +2,7 @@ export const SESSION_LOGIN_KEY = 'login' as const
 export const SESSION_NICKNAME = 'user_nickname' as const
 export const SESSION_MILITARY_CHPLAIN = 'user_chplain' as const
 export const SESSION_ROOM_TYPE = 'room_type' as const
+export const SESSION_REFRESH = 'hsefr' as const
 
 export const TAB_LIST = ['승차 공유', '팀원 모집'] as const
 export const TAB_LIST_EN = ['carpool', 'team']

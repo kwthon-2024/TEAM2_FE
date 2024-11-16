@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   Kebab,
+  Loading,
   ModalWithTwoButton,
   PostBottom,
   PostProfile,
@@ -118,7 +119,7 @@ export const CarpoolDetail = () => {
   } = useCarpoolDetailPage({ urls: { carpoolBoardId: parseInt(id as string) } })
   const { mutate: chattingMutation } = useCarpoolChattingId()
 
-  if (isPending || isError) return <div>loading</div>
+  if (isPending || isError) return <Loading />
 
   const {
     author,

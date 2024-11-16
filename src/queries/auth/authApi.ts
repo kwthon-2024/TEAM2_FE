@@ -6,6 +6,7 @@ import type {
   ValidateIdRequest,
   ValidateNicknameRequest,
 } from '@/types'
+import { getSessionStorageItem, SESSION_REFRESH } from '@/utils'
 
 import { api } from '..'
 
@@ -32,5 +33,9 @@ export const validateNickname = async ({ body }: ValidateNicknameRequest) => {
 }
 
 export const reIssue = async () => {
-  return await api.post(`${BASE_URL}/reissue`)
+  return await api.post(`${BASE_URL}/reissue`, undefined, {
+    headers: {
+      refresh: getSessionStorageItem(SESSION_REFRESH),
+    },
+  })
 }

@@ -2,7 +2,7 @@ import { Fragment } from 'react/jsx-runtime'
 import { Link, useNavigate } from 'react-router-dom'
 
 import chainImage from '@/assets/chain.svg'
-import { BottomNav, ProfileImage } from '@/components/view'
+import { BottomNav, Loading, ProfileImage } from '@/components/view'
 import { useExitUser, useLogout, useMypage } from '@/queries'
 import type { IconType } from '@/types'
 import { clearSessionStorage, getSessionStorageItem, SESSION_MILITARY_CHPLAIN } from '@/utils'
@@ -46,7 +46,7 @@ export const Mypage = () => {
     })
   }
 
-  if (isPending || isError) return <div>loading</div>
+  if (isPending || isError) return <Loading />
 
   const { nickname, dischargeYear } = mypageData
 
