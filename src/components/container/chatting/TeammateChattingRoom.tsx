@@ -66,13 +66,8 @@ export const TeammateChattingRoom = () => {
     if (teammateRoomData) initialMessage(teammateRoomData.previousMessages)
   }, [teammateRoomData])
 
-  const {
-    opponentNickname,
-    yearsSinceDischarge,
-    teamBoardTitle,
-    militaryChaplain,
-    previousMessages,
-  } = teammateRoomData
+  const { opponentNickname, yearsSinceDischarge, teamBoardTitle, militaryChaplain } =
+    teammateRoomData
 
   return (
     <div className="flex-column h-full">
