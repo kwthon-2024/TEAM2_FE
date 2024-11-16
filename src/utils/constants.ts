@@ -3,7 +3,7 @@ export const SESSION_NICKNAME = 'user_nickname' as const
 export const SESSION_MILITARY_CHPLAIN = 'user_chplain' as const
 export const SESSION_ROOM_TYPE = 'room_type' as const
 
-export const TAB_LIST = ['카풀 모집', '팀원 모집'] as const
+export const TAB_LIST = ['승차 공유', '팀원 모집'] as const
 export const TAB_LIST_EN = ['carpool', 'team']
 
 export const NOTICE_ARR = [
