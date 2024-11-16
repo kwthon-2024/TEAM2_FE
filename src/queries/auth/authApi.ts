@@ -8,8 +8,6 @@ import type {
 } from '@/types'
 import { getSessionStorageItem, SESSION_REFRESH } from '@/utils'
 
-import { api } from '..'
-
 const BASE_URL = import.meta.env.VITE_PUBLIC_SERVER_DOMAIN
 
 export const login = async ({ body }: LoginRequest) => {
@@ -33,8 +31,7 @@ export const validateNickname = async ({ body }: ValidateNicknameRequest) => {
 }
 
 export const reIssue = async () => {
-  console.log(getSessionStorageItem(SESSION_REFRESH))
-  return await api.post(`${BASE_URL}/reissue`, undefined, {
+  return await axios.post(`${BASE_URL}/reissue`, undefined, {
     headers: {
       refresh: getSessionStorageItem(SESSION_REFRESH),
     },
