@@ -51,7 +51,6 @@ export const TeammateChattingRoom = () => {
   ]
 
   const handleClcikSendButton = () => {
-    console.log('clicked')
     if (client.current && client.current.connected) {
       sendMessage(message)
       setMessage('')
@@ -60,11 +59,11 @@ export const TeammateChattingRoom = () => {
     }
   }
 
-  if (isPending || isError) return <Loading />
-
   useEffect(() => {
     if (teammateRoomData) initialMessage(teammateRoomData.previousMessages)
   }, [teammateRoomData])
+
+  if (isPending || isError) return <Loading />
 
   const { opponentNickname, yearsSinceDischarge, teamBoardTitle, militaryChaplain } =
     teammateRoomData

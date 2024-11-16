@@ -51,7 +51,6 @@ export const CarpoolChattingRoom = () => {
 
   const handleClcikSendButton = () => {
     if (client.current && client.current.connected) {
-      console.log('send')
       sendMessage(message)
       setMessage('')
     } else {
