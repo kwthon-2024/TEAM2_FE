@@ -30,6 +30,10 @@ export const useLoginForm = () => {
   const formMethod = useForm<LoginFormType>({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
+    defaultValues: {
+      userId: 'test01',
+      password: 'password',
+    },
     resolver: zodResolver(loginSchema),
   })
 
