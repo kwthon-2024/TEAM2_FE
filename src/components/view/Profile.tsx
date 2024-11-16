@@ -37,9 +37,11 @@ export const ChattingProfile = ({ name, title, message, time, iconType }: Chatti
     <div className="flex-align w-full gap-4 border-b border-b-grey-2 px-4 pb-3">
       <ProfileImage iconType={iconType} size="lg" />
       <div className="flex-column min-w-0 grow gap-[6px]">
-        <div className="flex-align gap-3">
-          <h6 className="font-bold">{name}</h6>
-          <p className="p-small text-blue-5">{title}</p>
+        <div className="flex-align min-w-0 grow gap-3">
+          <h6 className="shrink-0 font-bold">{name}</h6>
+          <p className="p-small min-w-0 truncate text-blue-5">
+            {title}dddddddddddddddddddddddddddddd
+          </p>
         </div>
         <p className="p-small grow truncate text-grey-7">{message}</p>
       </div>

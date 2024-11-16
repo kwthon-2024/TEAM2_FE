@@ -30,7 +30,7 @@ export const carpoolExitChattingRoom = async ({ urls }: CarpoolExitChattingRoomR
 }
 
 export const carpoolChattingRoomInfo = async ({ urls }: CarpoolChattingRoomRequest) => {
-  return await api.get<CarpoolChattingRoomResponse>(`/carpool/chat/room/list/${urls.chatRoomId}`)
+  return await api.get<CarpoolChattingRoomResponse>(`/carpool/chat/list/${urls.chatRoomId}`)
 }
 
 export const teammateChattingRoomList = async () => {
@@ -46,5 +46,5 @@ export const teammateExitChattingRoom = async ({ urls }: TeammateExitChattingRoo
 }
 
 export const teammateChattingRoomInfo = async ({ urls }: TeammateChattingRoomRequest) => {
-  return await api.get<TeammateChattingRoomResponse>(`/team/chat/room/list/${urls.chatRoomId}`)
+  return await api.get<TeammateChattingRoomResponse>(`/team/chat/list/${urls.chatRoomId}`)
 }
