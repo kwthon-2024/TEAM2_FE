@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Bubble } from '@/components/domain'
@@ -12,8 +12,9 @@ import {
   SendingIcon,
   SubHeaderWithIcon,
 } from '@/components/view'
-import { useBoolean, useWebSocket } from '@/hooks'
+import { useBoolean, useScrollToBottom, useWebSocket } from '@/hooks'
 import { useTeammateChattingRoom, useTeammateExitChattingRoom } from '@/queries'
+import { useMessageActions, useMessageData } from '@/stores/message'
 import type { IconType } from '@/types'
 
 export const TeammateChattingRoom = () => {
@@ -23,6 +24,10 @@ export const TeammateChattingRoom = () => {
   const { client, sendMessage } = useWebSocket(roomId, 'team')
   const [kebabState, setKebabTrue, setKebabFalse] = useBoolean(false)
   const [message, setMessage] = useState<string>('')
+
+  const { initialMessage } = useMessageActions()
+  const messageList = useMessageData()
+  const ref = useScrollToBottom(messageList)
 
   const { mutate: exitTeammateMutation } = useTeammateExitChattingRoom()
 
@@ -49,13 +54,17 @@ export const TeammateChattingRoom = () => {
     console.log('clicked')
     if (client.current && client.current.connected) {
       sendMessage(message)
-      // setInputValue('');
+      setMessage('')
     } else {
       console.log('WebSocket is not connected')
     }
   }
 
   if (isPending || isError) return <Loading />
+
+  useEffect(() => {
+    if (teammateRoomData) initialMessage(teammateRoomData.previousMessages)
+  }, [teammateRoomData])
 
   const {
     opponentNickname,
@@ -77,8 +86,8 @@ export const TeammateChattingRoom = () => {
 
       {kebabState && <Kebab list={kebabMap} location="right-4 top-12" redIndex={1} />}
 
-      <main className="scroll flex-column mx-4 grow gap-4 py-4">
-        {previousMessages?.map(({ senderName, content, createdAt }, index) => {
+      <main className="scroll flex-column mx-4 grow gap-4 py-4" ref={ref}>
+        {messageList?.map(({ senderName, content, createdAt }, index) => {
           const isMyMessage = senderName !== opponentNickname
           const layoutStyle = isMyMessage ? 'flex flex-row-reverse items-center' : 'flex-align'
           return (
@@ -96,6 +105,7 @@ export const TeammateChattingRoom = () => {
         <div className="flex-align grow gap-1 rounded-full bg-grey-1 py-2 pl-4 pr-2">
           <input
             type="text"
+            value={message}
             placeholder="메세지를 입력해주세요."
             onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
             className="grow bg-transparent text-grey-7 placeholder:text-grey-4 focus:outline-none"

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Client } from '@stomp/stompjs'
 
 import { api } from '@/queries'
+import { useMessageActions } from '@/stores/message'
 import { getSessionStorageItem, SESSION_NICKNAME } from '@/utils'
 
 const SERVER = import.meta.env.VITE_PUBLIC_SERVER
@@ -9,7 +10,7 @@ const SERVER = import.meta.env.VITE_PUBLIC_SERVER
 
 export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team') => {
   const client = useRef<Client | null>(null)
-  // const { addMessage } = useMessageActions()
+  const { addMessage } = useMessageActions()
 
   const token = api.getAccessToken() as string
 
@@ -28,7 +29,8 @@ export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team
           `/exchange/chat.${type}.exchange/chat.${type}.room.${roomId}`,
           (message) => {
             console.log('받은 메세지 :', message)
-            // addMessage(JSON.parse(message.body))
+            console.log('data', JSON.parse(message.body))
+            addMessage(JSON.parse(message.body))
           },
           { 'Content-Type': 'application/json' },
         )

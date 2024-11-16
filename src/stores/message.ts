@@ -3,7 +3,7 @@ import { create } from 'zustand'
 import type { MessegeType } from '@/types'
 
 type Actions = {
-  setMessage: (messages: MessegeType[]) => void
+  initialMessage: (messages: MessegeType[]) => void
   addMessage: (message: MessegeType) => void
   sendMessage: (message: MessegeType) => void
 }
@@ -16,7 +16,7 @@ type MessageStore = {
 const useMessageStore = create<MessageStore>((set) => ({
   messages: [],
   actions: {
-    setMessage: (messages) => set(() => ({ messages: [...messages] })),
+    initialMessage: (messages) => set(() => ({ messages: [...messages] })),
     addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
     sendMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
   },

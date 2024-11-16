@@ -1,5 +1,6 @@
 export * from './useBoolean'
 export * from './useForm'
+export * from './useScrollToBottom'
 export * from './useToggle'
 export * from './useTouchEvent'
 export * from './useWebsocket'
