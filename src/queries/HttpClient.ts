@@ -76,9 +76,8 @@ export class HttpClient {
           const newAccessToken = reIssueResponse.headers['authorization']
           this.setAccessToken(newAccessToken)
         } catch (reIssueError) {
-          console.error('토큰 재발급 실패:', reIssueError)
+          console.error('HTTTP 토큰 재발급 실패:', reIssueError)
           clearSessionStorage()
-          // window.location.href = '/login'
         }
       }
       console.error('API 요청 에러:', response.data)

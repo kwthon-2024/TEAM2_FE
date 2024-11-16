@@ -33,6 +33,7 @@ export const validateNickname = async ({ body }: ValidateNicknameRequest) => {
 }
 
 export const reIssue = async () => {
+  console.log(getSessionStorageItem(SESSION_REFRESH))
   return await api.post(`${BASE_URL}/reissue`, undefined, {
     headers: {
       refresh: getSessionStorageItem(SESSION_REFRESH),

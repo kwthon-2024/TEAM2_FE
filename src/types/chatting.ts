@@ -18,15 +18,17 @@ type TeammateChattingRoomType = ChattingRoomType & {
   teamBoardId: string
 }
 
+export type MessegeType = {
+  senderName: string
+  content: string
+  createdAt: string
+}
+
 type ChattingType = {
   opponentNickname: string
   yearsSinceDischarge: number
   militaryChaplain: string
-  previousMessages: {
-    senderName: string
-    content: string
-    createdAt: string
-  }[]
+  previousMessages: MessegeType[]
 }
 
 export type CarpoolChattingListResponse = {
