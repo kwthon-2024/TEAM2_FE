@@ -5,6 +5,7 @@ import { login, signup, validateId, validateNickname } from './authApi'
 export const useLogin = () => {
   return useMutation({
     mutationFn: login,
+    onSuccess: (res) => console.log(res),
   })
 }
 

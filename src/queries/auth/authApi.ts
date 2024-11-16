@@ -2,7 +2,6 @@ import axios from 'axios'
 
 import type {
   LoginRequest,
-  LoginResponse,
   SignupRequest,
   ValidateIdRequest,
   ValidateNicknameRequest,
@@ -13,11 +12,10 @@ import { api } from '..'
 const BASE_URL = import.meta.env.VITE_PUBLIC_SERVER_DOMAIN
 
 export const login = async ({ body }: LoginRequest) => {
-  return await axios.post<LoginResponse>(`${BASE_URL}/login`, body, {
+  return await axios.post(`${BASE_URL}/login`, body, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    withCredentials: true,
   })
 }
 
