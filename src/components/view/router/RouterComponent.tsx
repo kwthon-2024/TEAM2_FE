@@ -11,7 +11,6 @@ import {
   CarpoolEdit,
   CarpoolSearch,
   Chatting,
-  ChattingRoom,
   ErrorPage,
   Home,
   LoginPage,
@@ -65,7 +64,6 @@ export const RouterComponent = () => {
         <Route path="/teammate/search" element={<TeammateSearch />} />
 
         <Route path="/chatting" element={<Chatting />} />
-        <Route path="/chatting/chatting-room/:id" element={<ChattingRoom />} />
         <Route path="/chatting/chatting-room/carpool/:id" element={<CarpoolChattingRoom />} />
         <Route path="/chatting/chatting-room/teammate/:id" element={<TeammateChattingRoom />} />
 

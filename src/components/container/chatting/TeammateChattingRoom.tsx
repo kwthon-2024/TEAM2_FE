@@ -51,11 +51,13 @@ export const TeammateChattingRoom = () => {
   ]
 
   const handleClcikSendButton = () => {
-    if (client.current && client.current.connected) {
-      sendMessage(message)
-      setMessage('')
-    } else {
-      console.log('WebSocket is not connected')
+    if (message.length !== 0) {
+      if (client.current && client.current.connected) {
+        sendMessage(message)
+        setMessage('')
+      } else {
+        console.log('WebSocket is not connected')
+      }
     }
   }
 
