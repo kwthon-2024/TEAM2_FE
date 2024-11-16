@@ -15,8 +15,6 @@ export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team
   const token = api.getAccessToken() as string
 
   const connectHandler = () => {
-    console.log('WebSocket 연결 시도')
-
     client.current = new Client({
       brokerURL: `wss://${SERVER}/chat`,
       connectHeaders: {
@@ -24,12 +22,9 @@ export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team
         Authorization: token,
       },
       onConnect: () => {
-        console.log('WebSocket 연결 성공.')
         client.current?.subscribe(
           `/exchange/chat.${type}.exchange/chat.${type}.room.${roomId}`,
           (message) => {
-            console.log('받은 메세지 :', message)
-            console.log('data', JSON.parse(message.body))
             addMessage(JSON.parse(message.body))
           },
           { 'Content-Type': 'application/json' },
@@ -38,9 +33,6 @@ export const useWebSocket = (roomId: string | undefined, type: 'carpool' | 'team
       onStompError: (frame) => {
         console.error('Broker reported error: ' + frame.headers['message'])
         console.error('Additional details: ' + frame.body)
-      },
-      debug: (str) => {
-        console.log('STOMP debug:', str)
       },
     })
 
