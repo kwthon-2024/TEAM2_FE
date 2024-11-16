@@ -95,10 +95,13 @@ export const CarpoolChattingRoom = () => {
       </main>
 
       <div className="flex-align gap-2 bg-white px-4 pb-8 pt-3">
-        <AdditionIcon />
+        <div className="shrink-0">
+          <AdditionIcon />
+        </div>
         <div className="flex-align grow gap-1 rounded-full bg-grey-1 py-2 pl-4 pr-2">
           <input
             type="text"
+            size={8}
             value={message}
             placeholder="메세지를 입력해주세요."
             onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
